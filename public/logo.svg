@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 290" fill="none">
+  <!-- Bird / Phoenix shape in light blue -->
+  <g fill="#4DBDE8">
+    <!-- Speed tail lines (3 sweeping curves from right to left) -->
+    <path d="M245 118 C220 112 192 108 165 112 C148 115 132 122 118 128 C135 122 155 118 178 117 C202 116 228 120 245 118Z" opacity="0.65"/>
+    <path d="M248 107 C222 100 193 96 164 100 C144 104 126 113 110 120 C128 112 150 107 174 106 C200 105 228 110 248 107Z" opacity="0.75"/>
+    <path d="M252 96 C226 88 196 84 165 88 C142 92 122 102 105 111 C124 102 148 96 173 95 C200 94 230 99 252 96Z"/>
+
+    <!-- Main body of bird -->
+    <path d="
+      M252 96
+      C265 85 282 78 300 76
+      C318 74 335 80 345 92
+      C352 100 352 112 344 120
+      C336 128 322 130 310 126
+      C295 121 280 110 268 102
+      C262 98 257 96 252 96Z
+    "/>
+
+    <!-- Head & beak pointing right -->
+    <path d="
+      M344 92
+      C350 86 360 82 370 83
+      C378 84 383 90 380 97
+      C377 103 368 106 360 104
+      C352 102 346 97 344 92Z
+    "/>
+    <path d="M378 85 L396 78 L382 95 Z"/>
+
+    <!-- Wing highlight -->
+    <path d="
+      M290 82
+      C298 72 312 68 324 72
+      C312 75 300 80 292 88Z
+    " opacity="0.55"/>
+
+    <!-- Leg lines -->
+    <path d="M300 126 L292 148 L286 148" stroke="#4DBDE8" stroke-width="4" stroke-linecap="round"/>
+    <path d="M318 128 L312 150 L320 150" stroke="#4DBDE8" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- GILMAR -->
+  <text
+    x="230"
+    y="210"
+    text-anchor="middle"
+    fill="#1B3155"
+    font-family="'Arial Black', 'Arial Bold', Impact, sans-serif"
+    font-size="92"
+    font-weight="900"
+    letter-spacing="4"
+  >GILMAR</text>
+
+  <!-- AUTO CENTER -->
+  <text
+    x="230"
+    y="262"
+    text-anchor="middle"
+    fill="#1B3155"
+    font-family="'Arial Black', 'Arial Bold', Impact, sans-serif"
+    font-size="38"
+    font-weight="700"
+    letter-spacing="18"
+  >AUTO CENTER</text>
+</svg>
