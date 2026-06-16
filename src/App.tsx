@@ -716,43 +716,74 @@ const App: React.FC = () => {
   };
 
   if (loading) return (
-    <div className="h-screen flex items-center justify-center bg-slate-900 text-white">
-      <Loader2 className="animate-spin" size={32} />
+    <div className="h-screen flex items-center justify-center bg-[#0F172A]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/50">
+          <Wrench size={24} className="text-white" />
+        </div>
+        <Loader2 className="animate-spin text-blue-400" size={24} />
+      </div>
     </div>
   );
 
-  // ── Tela de login (acesso bloqueado sem senha) ──
+  // ── Tela de login ──
   if (!isAuthenticated) return (
-    <div className="h-screen flex items-center justify-center bg-slate-900 p-4">
-      <div className="bg-white rounded-3xl p-8 md:p-10 w-full max-w-sm shadow-2xl">
-        <div className="flex flex-col items-center mb-8">
-          <div className="flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4 shadow-lg shadow-blue-200">
-            <Wrench size={32} className="text-white" />
+    <div className="h-screen flex overflow-hidden bg-[#0F172A]">
+      {/* Painel esquerdo — decorativo */}
+      <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 p-12 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10" style={{backgroundImage:'radial-gradient(circle at 30% 20%, white 1px, transparent 1px), radial-gradient(circle at 70% 80%, white 1px, transparent 1px)', backgroundSize:'60px 60px'}} />
+        <div className="relative z-10 flex items-center gap-3">
+          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+            <Wrench size={20} className="text-white" />
           </div>
-          <h1 className="text-2xl font-black text-slate-800 tracking-tight">AutoCenter Pro</h1>
-          <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-widest">Sistema de Gestão</p>
+          <span className="text-white font-black text-lg tracking-tight">AutoCenter Pro</span>
         </div>
-        <div className="relative mb-4">
-          <input
-            type={pwdVisible ? 'text' : 'password'}
-            placeholder="Senha"
-            value={pwdInput}
-            onChange={e => { setPwdInput(e.target.value); setPwdError(''); }}
-            onKeyDown={e => e.key === 'Enter' && handleAdminLogin()}
-            className={`w-full p-4 pr-12 bg-slate-50 rounded-2xl outline-none font-bold text-sm transition-all ${pwdError ? 'ring-2 ring-red-400 bg-red-50' : 'focus:ring-2 focus:ring-blue-400'}`}
-            autoFocus
-          />
-          <button type="button" onClick={() => setPwdVisible(v => !v)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
-            {pwdVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+        <div className="relative z-10">
+          <h2 className="text-white text-4xl font-black leading-tight mb-4">Gestão completa<br/>da sua oficina<br/>em um só lugar.</h2>
+          <p className="text-blue-100 text-sm leading-relaxed max-w-xs">Controle ordens de serviço, estoque, financeiro e equipe com eficiência e simplicidade.</p>
+          <div className="flex gap-4 mt-8">
+            {[['10+', 'Módulos'], ['100%', 'Online'], ['0', 'Papel']].map(([v, l]) => (
+              <div key={l} className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 text-center border border-white/10">
+                <p className="text-white font-black text-xl">{v}</p>
+                <p className="text-blue-200 text-[10px] font-bold uppercase tracking-wider">{l}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="relative z-10 text-blue-200/60 text-xs">© 2025 AutoCenter Pro. Todos os direitos reservados.</p>
+      </div>
+
+      {/* Painel direito — formulário */}
+      <div className="flex-1 flex items-center justify-center p-6 bg-[#0F172A] lg:bg-slate-50">
+        <div className="w-full max-w-sm">
+          <div className="lg:hidden flex items-center gap-3 mb-10 justify-center">
+            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+              <Wrench size={20} className="text-white" />
+            </div>
+            <span className="text-white lg:text-slate-800 font-black text-lg">AutoCenter Pro</span>
+          </div>
+          <h1 className="text-2xl font-black text-white lg:text-slate-800 mb-1">Bem-vindo de volta</h1>
+          <p className="text-slate-400 lg:text-slate-500 text-sm mb-8">Entre com sua senha para continuar</p>
+          <div className="relative mb-3">
+            <input
+              type={pwdVisible ? 'text' : 'password'}
+              placeholder="Digite sua senha"
+              value={pwdInput}
+              onChange={e => { setPwdInput(e.target.value); setPwdError(''); }}
+              onKeyDown={e => e.key === 'Enter' && handleAdminLogin()}
+              className={`w-full px-4 py-3.5 pr-12 rounded-xl outline-none text-sm font-medium transition-all border-2 bg-slate-800/50 lg:bg-white text-white lg:text-slate-800 placeholder-slate-500 lg:placeholder-slate-400 ${pwdError ? 'border-red-500' : 'border-slate-700 lg:border-slate-200 focus:border-blue-500'}`}
+              autoFocus
+            />
+            <button type="button" onClick={() => setPwdVisible(v => !v)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 lg:hover:text-slate-600 transition-colors">
+              {pwdVisible ? <EyeOff size={17} /> : <Eye size={17} />}
+            </button>
+          </div>
+          {pwdError && <p className="text-xs text-red-400 font-medium mb-3 flex items-center gap-1"><X size={12} />{pwdError}</p>}
+          <p className="text-[11px] text-slate-500 mb-5">Senha padrão: <span className="font-bold text-slate-400 lg:text-slate-600">admin123</span></p>
+          <button onClick={handleAdminLogin} className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-blue-900/30 active:scale-[.98]">
+            Entrar no sistema
           </button>
         </div>
-        {pwdError && (
-          <p className="text-xs text-red-500 font-bold mb-4 flex items-center gap-1"><X size={12} />{pwdError}</p>
-        )}
-        <p className="text-[10px] text-slate-400 mb-6 text-center">Senha padrão: <span className="font-black text-slate-500">admin123</span></p>
-        <button onClick={handleAdminLogin} className="w-full p-4 bg-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all text-sm">
-          Entrar
-        </button>
       </div>
     </div>
   );
@@ -767,66 +798,67 @@ const App: React.FC = () => {
   const tableHeaders = getTableHeaders();
 
   return (
-    <div className="flex h-screen bg-slate-50 text-slate-900 overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#F1F5F9] text-slate-900 overflow-hidden font-sans">
 
       {/* ── Overlay mobile ── */}
       {isSidebarOpen && (
-        <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* ── Sidebar ── */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col
+        fixed inset-y-0 left-0 z-50 w-64 flex flex-col
         transition-transform duration-300
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:relative md:translate-x-0 md:z-auto
+        bg-[#0F172A]
       `}>
         {/* Logo */}
-        <div className="px-5 py-4 flex items-center justify-between border-b border-white/5">
+        <div className="px-5 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-9 h-9 bg-blue-600 rounded-xl flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/50 flex-shrink-0">
               <Wrench size={18} className="text-white" />
             </div>
             <div>
-              <p className="text-sm font-black text-white leading-tight">AutoCenter Pro</p>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Sistema de Gestão</p>
+              <p className="text-sm font-black text-white leading-none">AutoCenter Pro</p>
+              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Sistema de Gestão</p>
             </div>
           </div>
-          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-slate-400 hover:text-white p-1">
-            <X size={20} />
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-slate-500 hover:text-white p-1 transition-colors">
+            <X size={18} />
           </button>
         </div>
 
+        {/* Divisor */}
+        <div className="mx-5 h-px bg-white/5 mb-4" />
+
         {/* Nav */}
-        <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-          <NavItem id="dashboard" icon={LayoutDashboard} label="Dashboard"        active={activeTab} onClick={handleTabChange} />
-          <NavItem id="services"  icon={Wrench}          label="Serviços"        active={activeTab} onClick={handleTabChange} />
-          <NavItem id="quotes"    icon={FileText}        label="Orçamentos"      active={activeTab} onClick={handleTabChange} />
+        <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
+          <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest px-3 py-2">Menu Principal</p>
+          <NavItem id="dashboard" icon={LayoutDashboard} label="Dashboard"         active={activeTab} onClick={handleTabChange} />
+          <NavItem id="services"  icon={Wrench}          label="Serviços"          active={activeTab} onClick={handleTabChange} />
+          <NavItem id="quotes"    icon={FileText}        label="Orçamentos"        active={activeTab} onClick={handleTabChange} />
           <NavItem id="clients"   icon={Users}           label="Clientes & Carros" active={activeTab} onClick={handleTabChange} />
-          <NavItem id="staff"     icon={Briefcase}       label="Equipa"          active={activeTab} onClick={handleTabChange} />
-          <NavItem id="reports"   icon={BarChart3}       label="Relatórios"      active={activeTab} onClick={handleTabChange} />
+          <NavItem id="staff"     icon={Briefcase}       label="Equipe"            active={activeTab} onClick={handleTabChange} />
+          <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest px-3 py-2 mt-3">Análises</p>
+          <NavItem id="reports"   icon={BarChart3}       label="Relatórios"        active={activeTab} onClick={handleTabChange} />
         </nav>
 
-        {/* ── Sessão / Logout ── */}
-        <div className="p-4 m-4 bg-white/5 rounded-xl border border-white/5">
+        {/* Footer */}
+        <div className="p-3 m-3 rounded-xl bg-white/5 border border-white/5">
           <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5 text-[10px] font-black text-blue-400 uppercase tracking-wider">
-              <Lock size={11} /> Administrador
-            </span>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => { setPwdError(''); setNewPwd(''); setConfirmPwd(''); setShowChangePwd(true); setSidebarOpen(false); }}
-                className="text-slate-500 hover:text-slate-300 transition-colors"
-                title="Alterar senha"
-              >
-                <KeyRound size={14} />
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-blue-600/20 flex items-center justify-center">
+                <Lock size={11} className="text-blue-400" />
+              </div>
+              <span className="text-[11px] font-bold text-slate-300">Administrador</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button onClick={() => { setPwdError(''); setNewPwd(''); setConfirmPwd(''); setShowChangePwd(true); setSidebarOpen(false); }} className="text-slate-500 hover:text-slate-300 transition-colors p-1" title="Alterar senha">
+                <KeyRound size={13} />
               </button>
-              <button
-                onClick={handleLogout}
-                className="text-slate-500 hover:text-red-400 transition-colors"
-                title="Sair"
-              >
-                <LogOut size={14} />
+              <button onClick={handleLogout} className="text-slate-500 hover:text-red-400 transition-colors p-1" title="Sair">
+                <LogOut size={13} />
               </button>
             </div>
           </div>
@@ -835,76 +867,90 @@ const App: React.FC = () => {
 
       {/* ── Main ── */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <main className="flex-1 overflow-y-auto p-4 md:p-10 pb-24 md:pb-10">
-
-          {/* Header */}
-          <header className="flex justify-between items-center mb-6 md:mb-10">
-            <div className="flex items-center gap-3">
-              <button onClick={() => setSidebarOpen(true)} className="md:hidden p-2 rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm">
-                <Menu size={20} />
-              </button>
-              <div>
-                <h2 className="text-blue-600 font-bold text-[9px] uppercase tracking-widest mb-0.5">AutoCenter Pro</h2>
-                <h1 className="text-xl md:text-3xl font-black text-slate-800 tracking-tight">{getTabLabel(activeTab)}</h1>
-              </div>
+        {/* Topbar */}
+        <header className="bg-white border-b border-slate-200 px-4 md:px-8 py-3.5 flex items-center justify-between flex-shrink-0 shadow-sm">
+          <div className="flex items-center gap-3">
+            <button onClick={() => setSidebarOpen(true)} className="md:hidden p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors">
+              <Menu size={20} />
+            </button>
+            <div>
+              <h1 className="text-base font-black text-slate-800 leading-none">{getTabLabel(activeTab)}</h1>
+              <p className="text-[10px] text-slate-400 font-medium mt-0.5 hidden md:block">AutoCenter Pro · Sistema de Gestão</p>
             </div>
-            {!['dashboard', 'reports'].includes(activeTab) && (
-              <button
-                onClick={() => { setModalType(getModalType(activeTab)); setFormData({ paymentMethod: 'Dinheiro', staffName: '' }); setShowModal(true); }}
-                className="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg hover:bg-blue-700 transition-all text-sm"
-              >
-                <Plus size={18} />
-                <span className="hidden sm:inline">{getAddLabel(activeTab)}</span>
-              </button>
-            )}
-          </header>
+          </div>
+          {!['dashboard', 'reports'].includes(activeTab) && (
+            <button
+              onClick={() => { setModalType(getModalType(activeTab)); setFormData({ paymentMethod: 'Dinheiro', staffName: '' }); setShowModal(true); }}
+              className="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 shadow-md shadow-blue-200 transition-all text-sm"
+            >
+              <Plus size={16} />
+              <span className="hidden sm:inline">{getAddLabel(activeTab)}</span>
+            </button>
+          )}
+        </header>
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6">
 
           {/* ── Dashboard ── */}
           {activeTab === 'dashboard' && (
-            <div className="space-y-6">
+            <div className="space-y-5">
+              {/* Stat cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <StatBox title="Faturamento Hoje"     value={formatBRL(reportData.daily.total)} icon={DollarSign} color="text-emerald-500" />
-                <StatBox title="Serviços Hoje"        value={String(reportData.daily.count)}                      icon={Wrench}     color="text-blue-500"   />
-                <StatBox title="Profissionais Ativos" value={String(staff.length)}                                icon={UserCircle} color="text-purple-500" />
+                <StatBox title="Faturamento Hoje"     value={formatBRL(reportData.daily.total)} icon={DollarSign} gradient="from-emerald-500 to-teal-600" />
+                <StatBox title="Serviços Hoje"        value={String(reportData.daily.count)}    icon={Wrench}     gradient="from-blue-500 to-indigo-600" />
+                <StatBox title="Profissionais Ativos" value={String(staff.length)}              icon={UserCircle} gradient="from-violet-500 to-purple-600" />
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white p-5 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
-                  <h3 className="text-lg font-black mb-4">Equipa em Campo</h3>
-                  <div className="space-y-3">
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {/* Equipe */}
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                  <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <h3 className="font-black text-slate-800">Equipe em Campo</h3>
+                    <span className="text-[10px] font-bold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full">{staff.length} ativos</span>
+                  </div>
+                  <div className="divide-y divide-slate-50">
                     {staff.map(s => (
-                      <div key={s.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl">
+                      <div key={s.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50 transition-colors">
                         <div className="flex items-center gap-3">
-                          <div className="bg-white p-2 rounded-full border border-slate-100 text-slate-400 flex-shrink-0"><UserCircle size={18} /></div>
-                          <div className="min-w-0">
-                            <button onClick={() => setSelectedStaffName(s.name)} className="font-bold text-slate-800 text-sm truncate text-left hover:text-blue-600 active:text-blue-700 transition-colors block w-full py-0.5">{s.name}</button>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase truncate">{s.specialty || 'Mecânico Geral'}</p>
+                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <UserCircle size={18} className="text-white" />
+                          </div>
+                          <div>
+                            <button onClick={() => setSelectedStaffName(s.name)} className="font-bold text-slate-800 text-sm hover:text-blue-600 transition-colors text-left">{s.name}</button>
+                            <p className="text-[10px] text-slate-400 font-medium">{s.specialty || 'Mecânico Geral'}</p>
                           </div>
                         </div>
-                        <span className="text-[9px] font-black bg-blue-100 text-blue-700 px-2.5 py-1 rounded-full uppercase flex-shrink-0 ml-2">Ativo</span>
+                        <span className="text-[9px] font-black bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full border border-emerald-100">● Ativo</span>
                       </div>
                     ))}
-                    {staff.length === 0 && <p className="text-center text-slate-400 py-4 text-sm">Nenhum profissional cadastrado.</p>}
+                    {staff.length === 0 && <p className="text-center text-slate-400 py-8 text-sm">Nenhum profissional cadastrado.</p>}
                   </div>
                 </div>
-                <div className="bg-white p-5 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
-                  <h3 className="text-lg font-black mb-4">Últimas Atribuições</h3>
-                  <div className="space-y-3">
-                    {services.slice(-4).reverse().map(s => (
-                      <div key={s.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border-l-4 border-blue-500">
-                        <div className="min-w-0 flex-1">
-                          <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
-                          <div className="text-[10px] text-slate-500 font-bold flex items-center mt-0.5">
-                            <UserCircle size={11} className="mr-1 flex-shrink-0" />
-                            {s.staffName
-                              ? <button onClick={() => setSelectedStaffName(s.staffName)} className="truncate hover:text-blue-600 active:text-blue-700 transition-colors text-left">{s.staffName}</button>
-                              : <span className="truncate">Pendente</span>
-                            }
+
+                {/* Últimas OS */}
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                  <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <h3 className="font-black text-slate-800">Últimas Ordens</h3>
+                    <span className="text-[10px] font-bold bg-slate-100 text-slate-500 px-2.5 py-1 rounded-full">{services.length} total</span>
+                  </div>
+                  <div className="divide-y divide-slate-50">
+                    {services.slice(-5).reverse().map(s => (
+                      <div key={s.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50 transition-colors">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className={`w-2 h-2 rounded-full flex-shrink-0 ${s.status === 'Entregue' ? 'bg-emerald-500' : 'bg-amber-400'}`} />
+                          <div className="min-w-0">
+                            <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
+                            <p className="text-[10px] text-slate-400 font-medium truncate">
+                              {s.clientName}{s.staffName ? ` · ${s.staffName}` : ''}
+                            </p>
                           </div>
                         </div>
-                        <span className="font-black text-slate-400 text-xs flex-shrink-0 ml-2">{s.date}</span>
+                        <div className="flex flex-col items-end gap-1 ml-3 flex-shrink-0">
+                          <span className="font-black text-slate-700 text-xs">{formatBRL(s.value)}</span>
+                          <span className="text-[9px] text-slate-400">{s.date}</span>
+                        </div>
                       </div>
                     ))}
-                    {services.length === 0 && <p className="text-center text-slate-400 py-4 text-sm">Nenhum serviço registado.</p>}
+                    {services.length === 0 && <p className="text-center text-slate-400 py-8 text-sm">Nenhum serviço registado.</p>}
                   </div>
                 </div>
               </div>
@@ -1272,7 +1318,7 @@ const App: React.FC = () => {
 
           {/* ── Tabela / Cards ── */}
           {(['services', 'staff', 'vehicles', 'customers', 'clients'] as TabName[]).includes(activeTab) && (
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               {/* Barra de pesquisa */}
               <div className="p-3 md:p-4 border-b flex items-center bg-slate-50/50">
                 <Search className="text-slate-300 mr-2 flex-shrink-0" size={18} />
@@ -1403,7 +1449,7 @@ const App: React.FC = () => {
         </main>
 
         {/* ── Bottom Nav (mobile) ── */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-white/5 flex z-30">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex z-30 shadow-lg">
           <BottomNavItem id="dashboard" icon={LayoutDashboard} label="Home"       active={activeTab} onClick={handleTabChange} />
           <BottomNavItem id="services"  icon={Wrench}          label="Serviços"   active={activeTab} onClick={handleTabChange} />
           <BottomNavItem id="quotes"    icon={FileText}        label="Orçamentos" active={activeTab} onClick={handleTabChange} />
@@ -1863,11 +1909,15 @@ interface NavItemProps {
 const NavItem: React.FC<NavItemProps> = ({ id, icon: Icon, label, active, onClick }) => (
   <button
     onClick={() => onClick(id)}
-    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all text-left ${
-      active === id ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'text-slate-400 hover:text-white hover:bg-white/5'
+    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left group ${
+      active === id
+        ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/30'
+        : 'text-slate-500 hover:text-white hover:bg-white/5'
     }`}
   >
-    <Icon size={18} className="flex-shrink-0" />
+    <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all ${active === id ? 'bg-white/20' : 'bg-white/0 group-hover:bg-white/10'}`}>
+      <Icon size={15} />
+    </div>
     <span className="text-xs font-bold">{label}</span>
   </button>
 );
@@ -1876,7 +1926,7 @@ const BottomNavItem: React.FC<NavItemProps> = ({ id, icon: Icon, label, active, 
   <button
     onClick={() => onClick(id)}
     className={`flex-1 flex flex-col items-center justify-center py-3 transition-colors ${
-      active === id ? 'text-blue-400' : 'text-slate-500 hover:text-white'
+      active === id ? 'text-blue-400' : 'text-slate-600 hover:text-slate-400'
     }`}
   >
     <Icon size={20} />
@@ -1884,14 +1934,20 @@ const BottomNavItem: React.FC<NavItemProps> = ({ id, icon: Icon, label, active, 
   </button>
 );
 
-interface StatBoxProps { title: string; value: string; icon: React.ElementType<any>; color: string; }
-const StatBox: React.FC<StatBoxProps> = ({ title, value, icon: Icon, color }) => (
-  <div className="bg-white p-5 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
-    <div>
-      <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{title}</p>
-      <p className="text-xl md:text-2xl font-black">{value}</p>
+interface StatBoxProps { title: string; value: string; icon: React.ElementType<any>; gradient: string; }
+const StatBox: React.FC<StatBoxProps> = ({ title, value, icon: Icon, gradient }) => (
+  <div className={`rounded-2xl p-5 bg-gradient-to-br ${gradient} text-white shadow-lg relative overflow-hidden`}>
+    <div className="absolute top-0 right-0 w-24 h-24 rounded-full bg-white/10 -translate-y-8 translate-x-8" />
+    <div className="absolute bottom-0 left-0 w-16 h-16 rounded-full bg-black/10 translate-y-6 -translate-x-6" />
+    <div className="relative z-10 flex items-start justify-between">
+      <div>
+        <p className="text-[10px] font-bold text-white/70 uppercase tracking-widest mb-1">{title}</p>
+        <p className="text-2xl font-black text-white">{value}</p>
+      </div>
+      <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+        <Icon size={20} className="text-white" />
+      </div>
     </div>
-    <div className={`p-3 rounded-xl bg-slate-50 ${color} flex-shrink-0`}><Icon size={20} /></div>
   </div>
 );
 
