@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   LayoutDashboard, Users, Wrench, Plus, Search,
   Trash2, DollarSign, Loader2, BarChart3,
@@ -118,12 +118,12 @@ const App: React.FC = () => {
     paymentMethod: 'Dinheiro', staffName: '',
   });
 
-  // â”€â”€ Entrega de serviÃ§o â”€â”€
+  // â"€â"€ Entrega de serviÃ§o â"€â"€
   const [showDeliveryModal,   setShowDeliveryModal]   = useState(false);
   const [deliveryServiceId,   setDeliveryServiceId]   = useState<string | null>(null);
   const [deliveryPayment,     setDeliveryPayment]     = useState('Dinheiro');
 
-  // â”€â”€ OrÃ§amentos â”€â”€
+  // â"€â"€ OrÃ§amentos â"€â"€
   const [quotes,          setQuotes]          = useState<Quote[]>([]);
   const [quoteClient,     setQuoteClient]     = useState('');
   const [quoteVehicle,    setQuoteVehicle]    = useState('');
@@ -169,7 +169,7 @@ const App: React.FC = () => {
         { id: 'sv4',  description: 'Alinhamento e balanceamento',        clientName: 'Fernanda Costa',     plate: 'RJD-9K55', staffName: 'Rodrigo Ferreira', paymentMethod: 'CartÃ£o',   status: 'Entregue', value: 160,  date: d(3),  createdAt: ts(3)  },
         { id: 'sv5',  description: 'Troca de Ã³leo e filtros',            clientName: 'Roberto Nascimento', plate: 'RJE-1M78', staffName: 'Carlos Augusto',   paymentMethod: 'Dinheiro', status: 'Entregue', value: 210,  date: d(4),  createdAt: ts(4)  },
         { id: 'sv6',  description: 'Reparo sistema de injeÃ§Ã£o eletrÃ´nica', clientName: 'Juliana Ramos',   plate: 'RJF-3N21', staffName: 'Carlos Augusto',   paymentMethod: 'Pix',      status: 'Entregue', value: 490,  date: d(5),  createdAt: ts(5)  },
-        { id: 'sv7',  description: 'Funilaria â€“ amasso porta dianteira',  clientName: 'Diego Cardoso',     plate: 'RJG-5P44', staffName: 'FÃ¡bio Mendes',     paymentMethod: 'CartÃ£o',   status: 'Entregue', value: 850,  date: d(7),  createdAt: ts(7)  },
+        { id: 'sv7',  description: 'Funilaria â€" amasso porta dianteira',  clientName: 'Diego Cardoso',     plate: 'RJG-5P44', staffName: 'FÃ¡bio Mendes',     paymentMethod: 'CartÃ£o',   status: 'Entregue', value: 850,  date: d(7),  createdAt: ts(7)  },
         { id: 'sv8',  description: 'Troca amortecedores traseiros',       clientName: 'Marcos Oliveira',   plate: 'RJA-2E34', staffName: 'Rodrigo Ferreira', paymentMethod: 'Pix',      status: 'Entregue', value: 620,  date: d(10), createdAt: ts(10) },
         { id: 'sv9',  description: 'Limpeza de bicos injetores',          clientName: 'Fernanda Costa',    plate: 'RJD-9K55', staffName: 'Carlos Augusto',   paymentMethod: 'Dinheiro', status: 'Entregue', value: 280,  date: d(12), createdAt: ts(12) },
         { id: 'sv10', description: 'InstalaÃ§Ã£o de som automotivo',        clientName: 'AndrÃ© Lima',        plate: 'RJC-7H90', staffName: 'Leandro Souza',    paymentMethod: 'CartÃ£o',   status: 'Entregue', value: 420,  date: d(15), createdAt: ts(15) },
@@ -219,7 +219,7 @@ const App: React.FC = () => {
     setSearchTerm('');
   };
 
-  // â”€â”€ Reports â”€â”€
+  // â"€â"€ Reports â"€â"€
   const reportData = useMemo(() => {
     const todayStr = new Date().toISOString().split('T')[0];
     const calcStats = (list: Service[]) => {
@@ -241,7 +241,7 @@ const App: React.FC = () => {
     };
   }, [services]);
 
-  // â”€â”€ CRUD â”€â”€
+  // â"€â"€ CRUD â"€â"€
   const handleSave = () => {
     // ValidaÃ§Ã£o bÃ¡sica
     if (modalType === 'service' && !formData.description?.trim()) return;
@@ -306,7 +306,7 @@ const App: React.FC = () => {
     if (activeTab === 'clients')   setClientRecords(prev => prev.filter(i => i.id !== id));
   };
 
-  // â”€â”€ Entregar serviÃ§o (atualiza status + pagamento) â”€â”€
+  // â"€â"€ Entregar serviÃ§o (atualiza status + pagamento) â"€â"€
   const openDelivery = (id: string) => {
     setDeliveryServiceId(id);
     setDeliveryPayment('Dinheiro');
@@ -326,7 +326,7 @@ const App: React.FC = () => {
     setDeliveryServiceId(null);
   };
 
-  // â”€â”€ OrÃ§amento: abrir ediÃ§Ã£o â”€â”€
+  // â"€â"€ OrÃ§amento: abrir ediÃ§Ã£o â"€â"€
   const openEditQuote = (q: Quote) => {
     setEditingQuoteId(q.id);
     setQuoteClient(q.clientName);
@@ -346,7 +346,7 @@ const App: React.FC = () => {
     setShowModal(true);
   };
 
-  // â”€â”€ OrÃ§amento: salvar (criar ou editar) â”€â”€
+  // â"€â"€ OrÃ§amento: salvar (criar ou editar) â"€â"€
   const handleSaveQuote = () => {
     const validItems = quoteItems.filter(i => i.description.trim() !== '');
     if (!quoteClient.trim() || validItems.length === 0) return;
@@ -384,21 +384,21 @@ const App: React.FC = () => {
     setQuoteObservations(''); setQuotePayment(''); setQuoteValidDays('');
   };
 
-  // â”€â”€ OrÃ§amento: mudar status â”€â”€
+  // â"€â"€ OrÃ§amento: mudar status â"€â"€
   const changeQuoteStatus = (id: string, status: Quote['status']) => {
     const updated = quotes.map(q => q.id === id ? { ...q, status } : q);
     setQuotes(updated);
     saveCol('quotes', updated);
   };
 
-  // â”€â”€ OrÃ§amento: deletar â”€â”€
+  // â"€â"€ OrÃ§amento: deletar â"€â"€
   const deleteQuote = (id: string) => {
     const updated = quotes.filter(q => q.id !== id);
     setQuotes(updated);
     saveCol('quotes', updated);
   };
 
-  // â”€â”€ OrÃ§amento: gerar PDF (abre janela de impressÃ£o) â”€â”€
+  // â"€â"€ OrÃ§amento: gerar PDF (abre janela de impressÃ£o) â"€â"€
   const printQuote = (quote: Quote) => {
     const subtotal = quote.items.reduce((acc, i) => acc + i.qty * i.unitValue, 0);
     const discountVal = quote.discount ?? 0;
@@ -427,7 +427,7 @@ const App: React.FC = () => {
       </tr>`).join('');
 
     const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
-      <title>Nota de OrÃ§amento â€“ Gilmar Auto Center</title>
+      <title>Nota de OrÃ§amento â€" Gilmar Auto Center</title>
       <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:Arial,sans-serif;color:#000;font-size:12px;padding:28px 32px;background:#fff}
@@ -491,7 +491,7 @@ const App: React.FC = () => {
       <div class="header">
         <div class="logo-wrap">
           <div class="logo-brand">AutoCenter Pro</div>
-          <div class="logo-sub">â€” SISTEMA DE GESTÃƒO â€”</div>
+          <div class="logo-sub">â€" SISTEMA DE GESTÃƒO â€"</div>
         </div>
         <div class="header-right">
           <div class="nota-title">Nota de OrÃ§amento</div>
@@ -589,9 +589,9 @@ const App: React.FC = () => {
       <!-- BARRA INFERIOR -->
       <div class="bottom-bar">
         <div style="display:flex;gap:28px">
-          <div class="bottom-item"><span class="bottom-icon">ðŸ”§</span><span><b>AutoCenter Pro</b> â€” Sistema de GestÃ£o</span></div>
+          <div class="bottom-item"><span class="bottom-icon">ðŸ"§</span><span><b>AutoCenter Pro</b> â€" Sistema de GestÃ£o</span></div>
         </div>
-        <div class="bottom-item"><span class="bottom-icon">ðŸ“‹</span><div>Documento gerado automaticamente pelo sistema</div></div>
+        <div class="bottom-item"><span class="bottom-icon">ðŸ"‹</span><div>Documento gerado automaticamente pelo sistema</div></div>
       </div>
 
       <script>window.onload=()=>{window.print()}<\/script></body></html>`;
@@ -599,27 +599,27 @@ const App: React.FC = () => {
     if (win) { win.document.write(html); win.document.close(); }
   };
 
-  // â”€â”€ OrÃ§amento: enviar via WhatsApp â”€â”€
+  // â"€â"€ OrÃ§amento: enviar via WhatsApp â"€â"€
   const shareWhatsApp = (quote: Quote) => {
     const num = `#${quote.id.slice(-6).toUpperCase()}`;
     const data = new Date(quote.createdAt).toLocaleDateString('pt-BR');
     const itens = quote.items
-      .map(i => `  â€¢ ${i.description} (${i.qty}x) â€” ${formatBRL(i.qty * i.unitValue)}`)
+      .map(i => `  â€¢ ${i.description} (${i.qty}x) â€" ${formatBRL(i.qty * i.unitValue)}`)
       .join('\n');
     const veiculo = [quote.vehicleModel, quote.vehiclePlate].filter(Boolean).join(' Â· ');
     const msg = [
-      `ðŸ”§ *OrÃ§amento AutoCenter Pro* ${num}`,
-      `ðŸ“… Data: ${data}`,
+      `ðŸ"§ *OrÃ§amento AutoCenter Pro* ${num}`,
+      `ðŸ"… Data: ${data}`,
       ``,
-      `ðŸ‘¤ Cliente: *${quote.clientName}*`,
+      `ðŸ'¤ Cliente: *${quote.clientName}*`,
       veiculo ? `ðŸš— VeÃ­culo: ${veiculo}` : '',
       ``,
-      `ðŸ“‹ *ServiÃ§os / Itens:*`,
+      `ðŸ"‹ *ServiÃ§os / Itens:*`,
       itens,
       ``,
-      `ðŸ’° *Total: ${formatBRL(quote.total)}*`,
+      `ðŸ'° *Total: ${formatBRL(quote.total)}*`,
       ``,
-      `ðŸ“ž Entre em contato conosco para mais informaÃ§Ãµes.`,
+      `ðŸ"ž Entre em contato conosco para mais informaÃ§Ãµes.`,
     ].filter(l => l !== null && l !== undefined).join('\n');
 
     const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
@@ -647,8 +647,8 @@ const App: React.FC = () => {
     if (activeTab === 'clients') {
       const cr = item as ClientRecord;
       const namePhone = cr.phone ? `${cr.name}  Â·  ${cr.phone}` : cr.name;
-      const vehicleInfo = [cr.vehicleModel, cr.vehiclePlate].filter(Boolean).join('  Â·  ') || 'â€”';
-      return [namePhone, vehicleInfo, cr.arrivedAt || 'â€”'];
+      const vehicleInfo = [cr.vehicleModel, cr.vehiclePlate].filter(Boolean).join('  Â·  ') || 'â€"';
+      return [namePhone, vehicleInfo, cr.arrivedAt || 'â€"'];
     }
     const sv = item as Service;
     const svcTitle = sv.clientName ? `${sv.description} Â· ${sv.clientName}` : sv.description;
@@ -666,7 +666,7 @@ const App: React.FC = () => {
   const tableHeaders = getTableHeaders();
 
   return (
-    <div className=”flex h-screen bg-[#FFF7ED] text-slate-900 overflow-hidden font-sans”>
+    <div className="flex h-screen bg-[#FFF7ED] text-slate-900 overflow-hidden font-sans">
 
       {/* Modal de registo (OS / Veículo / etc) */}
       {showModal && (
@@ -926,7 +926,7 @@ const App: React.FC = () => {
       )}
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          MODAL HISTÃ“RICO DO MECÃ‚NICO
+          MODAL HISTÃ"RICO DO MECÃ‚NICO
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {selectedStaffName && (
         <div
@@ -977,9 +977,9 @@ const App: React.FC = () => {
                           <div className="min-w-0 flex-1">
                             <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
                             {s.clientName && (
-                              <p className="text-xs text-slate-500 mt-0.5 truncate">ðŸ‘¤ {s.clientName}{s.plate ? ` Â· ${s.plate}` : ''}</p>
+                              <p className="text-xs text-slate-500 mt-0.5 truncate">ðŸ'¤ {s.clientName}{s.plate ? ` Â· ${s.plate}` : ''}</p>
                             )}
-                            <p className="text-[10px] text-slate-400 font-bold mt-1">ðŸ“… {s.date || 'â€”'}</p>
+                            <p className="text-[10px] text-slate-400 font-bold mt-1">ðŸ"… {s.date || 'â€"'}</p>
                           </div>
                           <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
                             <span className="font-black text-orange-600 text-sm">{formatBRL(s.value)}</span>
