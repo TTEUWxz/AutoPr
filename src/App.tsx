@@ -668,6 +668,496 @@ const App: React.FC = () => {
   return (
     <div className="flex h-screen bg-[#FFF7ED] text-slate-900 overflow-hidden font-sans">
 
+      {/* Overlay mobile */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed inset-y-0 left-0 z-50 w-64 bg-[#1C1917] text-white flex flex-col
+        transition-transform duration-300
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:relative md:translate-x-0 md:z-auto
+      `}>
+        {/* Logo */}
+        <div className="px-5 py-5 flex items-center justify-between border-b border-white/5">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-900/40">
+              <Wrench size={16} className="text-white" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest leading-none">Auto</p>
+              <p className="text-sm font-black text-white leading-none">Center Pro</p>
+            </div>
+          </div>
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-slate-400 hover:text-white p-1">
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+          <NavItem id="dashboard" icon={LayoutDashboard} label="Dashboard"         active={activeTab} onClick={handleTabChange} />
+          <NavItem id="services"  icon={Wrench}          label="Servicos"          active={activeTab} onClick={handleTabChange} />
+          <NavItem id="quotes"    icon={FileText}        label="Orcamentos"        active={activeTab} onClick={handleTabChange} />
+          <NavItem id="clients"   icon={Users}           label="Clientes & Carros" active={activeTab} onClick={handleTabChange} />
+          <NavItem id="staff"     icon={Briefcase}       label="Equipa"            active={activeTab} onClick={handleTabChange} />
+          <NavItem id="reports"   icon={BarChart3}       label="Relatorios"        active={activeTab} onClick={handleTabChange} />
+        </nav>
+
+        {/* Version */}
+        <div className="p-4 m-4 bg-white/5 rounded-xl border border-white/5">
+          <p className="text-[10px] font-black text-orange-400 uppercase tracking-wider">AutoCenter Pro</p>
+          <p className="text-[10px] text-slate-500 mt-0.5">Demo v1.0</p>
+        </div>
+      </aside>
+
+      {/* Main */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <main className="flex-1 overflow-y-auto p-4 md:p-10 pb-24 md:pb-10">
+
+          {/* Header */}
+          <header className="flex justify-between items-center mb-6 md:mb-10">
+            <div className="flex items-center gap-3">
+              <button onClick={() => setSidebarOpen(true)} className="md:hidden p-2 rounded-xl bg-white border border-slate-200 text-slate-600 shadow-sm">
+                <Menu size={20} />
+              </button>
+              <div>
+                <h2 className="text-orange-500 font-bold text-[9px] uppercase tracking-widest mb-0.5">AutoCenter Pro</h2>
+                <h1 className="text-xl md:text-3xl font-black text-slate-800 tracking-tight">{getTabLabel(activeTab)}</h1>
+              </div>
+            </div>
+            {!['dashboard', 'reports'].includes(activeTab) && (
+              <button
+                onClick={() => { setModalType(getModalType(activeTab)); setFormData({ paymentMethod: 'Dinheiro', staffName: '' }); setShowModal(true); }}
+                className="bg-orange-500 text-white px-4 md:px-6 py-2 md:py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-orange-200 hover:bg-orange-600 transition-all text-sm"
+              >
+                <Plus size={18} />
+                <span className="hidden sm:inline">{getAddLabel(activeTab)}</span>
+              </button>
+            )}
+          </header>
+
+          {/* Dashboard */}
+          {activeTab === 'dashboard' && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <StatBox title="Faturamento Hoje"     value={formatBRL(reportData.daily.total)} icon={DollarSign} gradient="from-emerald-500 to-teal-600" />
+                <StatBox title="Servicos Hoje"        value={String(reportData.daily.count)}    icon={Wrench}     gradient="from-orange-500 to-red-600" />
+                <StatBox title="Profissionais Ativos" value={String(staff.length)}              icon={UserCircle} gradient="from-amber-500 to-rose-600" />
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white p-5 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                  <h3 className="text-lg font-black mb-4">Equipa em Campo</h3>
+                  <div className="space-y-3">
+                    {staff.map(s => (
+                      <div key={s.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-white p-2 rounded-full border border-slate-100 text-slate-400 flex-shrink-0"><UserCircle size={18} /></div>
+                          <div className="min-w-0">
+                            <button onClick={() => setSelectedStaffName(s.name)} className="font-bold text-slate-800 text-sm truncate text-left hover:text-orange-600 transition-colors block w-full py-0.5">{s.name}</button>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase truncate">{s.specialty || 'Mecanico Geral'}</p>
+                          </div>
+                        </div>
+                        <span className="text-[9px] font-black bg-orange-100 text-orange-700 px-2.5 py-1 rounded-full uppercase flex-shrink-0 ml-2">Ativo</span>
+                      </div>
+                    ))}
+                    {staff.length === 0 && <p className="text-center text-slate-400 py-4 text-sm">Nenhum profissional cadastrado.</p>}
+                  </div>
+                </div>
+                <div className="bg-white p-5 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                  <h3 className="text-lg font-black mb-4">Ultimas Atribuicoes</h3>
+                  <div className="space-y-3">
+                    {services.slice(-4).reverse().map(s => (
+                      <div key={s.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border-l-4 border-orange-500">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
+                          <div className="text-[10px] text-slate-500 font-bold flex items-center mt-0.5">
+                            <UserCircle size={11} className="mr-1 flex-shrink-0" />
+                            {s.staffName
+                              ? <button onClick={() => setSelectedStaffName(s.staffName)} className="truncate hover:text-orange-600 transition-colors text-left">{s.staffName}</button>
+                              : <span className="truncate">Pendente</span>
+                            }
+                          </div>
+                        </div>
+                        <span className="font-black text-slate-400 text-xs flex-shrink-0 ml-2">{s.date}</span>
+                      </div>
+                    ))}
+                    {services.length === 0 && <p className="text-center text-slate-400 py-4 text-sm">Nenhum servico registrado.</p>}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Relatorios */}
+          {activeTab === 'reports' && (() => {
+            const todayStr = new Date().toISOString().split('T')[0];
+            const mesAtual = todayStr.substring(0, 7);
+            const servicosFiltrados = reportPeriod === 'mes'
+              ? services.filter(s => s.date?.substring(0, 7) === mesAtual)
+              : services;
+            const porMecanico: Record<string, Service[]> = {};
+            servicosFiltrados.forEach(s => {
+              const nome = s.staffName || 'Sem Mecanico';
+              if (!porMecanico[nome]) porMecanico[nome] = [];
+              porMecanico[nome].push(s);
+            });
+            return (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <StatBox title={reportPeriod === 'mes' ? 'Faturamento do Mes' : 'Faturamento Total'} value={formatBRL(servicosFiltrados.reduce((a, s) => a + (s.value ?? 0), 0))} icon={DollarSign} gradient="from-emerald-500 to-teal-600" />
+                  <StatBox title={reportPeriod === 'mes' ? 'Servicos no Mes' : 'Total de Servicos'} value={String(servicosFiltrados.length)} icon={Wrench} gradient="from-orange-500 to-red-600" />
+                  <StatBox title="Mecanicos Ativos" value={String(Object.keys(porMecanico).length)} icon={UserCircle} gradient="from-amber-500 to-rose-600" />
+                </div>
+                <div className="flex items-center gap-2">
+                  {(['mes', 'tudo'] as const).map(p => (
+                    <button key={p} onClick={() => setReportPeriod(p)}
+                      className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${reportPeriod === p ? 'bg-orange-500 text-white shadow' : 'bg-white border border-slate-200 text-slate-500 hover:border-orange-300'}`}>
+                      {p === 'mes' ? 'Este Mes' : 'Todo o Periodo'}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-base font-black flex items-center gap-2 text-slate-800">
+                    <Briefcase size={18} className="text-orange-500" /> Historico por Mecanico
+                  </h3>
+                  {Object.keys(porMecanico).length === 0 && (
+                    <div className="bg-white rounded-3xl border border-slate-200 p-10 text-center text-slate-400 text-sm">Nenhum servico encontrado no periodo.</div>
+                  )}
+                  {Object.entries(porMecanico).sort((a, b) => b[1].length - a[1].length).map(([nome, svcs]) => {
+                    const totalMec = svcs.reduce((a, s) => a + (s.value ?? 0), 0);
+                    const isOpen = expandedStaff === nome;
+                    return (
+                      <div key={nome} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <button onClick={() => setExpandedStaff(isOpen ? null : nome)}
+                          className="w-full flex items-center justify-between p-4 md:p-5 hover:bg-slate-50 transition-colors text-left">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-orange-100 text-orange-600 p-2.5 rounded-xl flex-shrink-0"><UserCircle size={20} /></div>
+                            <div>
+                              <p className="font-black text-slate-800 text-sm">{nome}</p>
+                              <p className="text-[11px] text-slate-400 mt-0.5">{svcs.length} servico{svcs.length !== 1 ? 's' : ''} · {formatBRL(totalMec)}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3 flex-shrink-0">
+                            <span className="hidden sm:block font-black text-emerald-600 text-sm">{formatBRL(totalMec)}</span>
+                            <span className={`text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+                          </div>
+                        </button>
+                        {isOpen && (
+                          <div className="border-t border-slate-100">
+                            {svcs.slice().sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(s => (
+                              <div key={s.id} className="px-4 md:px-5 py-3 border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors">
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="min-w-0 flex-1">
+                                    <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
+                                    {s.clientName && <p className="text-xs text-slate-500 truncate">{s.clientName}{s.plate ? ` · ${s.plate}` : ''}</p>}
+                                  </div>
+                                  <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                                    <span className="font-black text-orange-600 text-sm">{formatBRL(s.value)}</span>
+                                    <StatusBadge status={s.status} paymentMethod={s.paymentMethod} />
+                                  </div>
+                                </div>
+                                <span className="text-[10px] text-slate-400 font-bold mt-1 block">{s.date || '—'}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Tabela detalhada */}
+                <div className="space-y-3">
+                  <h3 className="text-base font-black flex items-center gap-2 text-slate-800">
+                    <FileText size={18} className="text-emerald-500" /> Tabela Detalhada por Mecanico
+                  </h3>
+                  <div className="flex flex-wrap gap-3 items-center bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+                    <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Filtrar por data:</span>
+                    <div className="flex items-center gap-2">
+                      <label className="text-xs font-bold text-slate-500">De</label>
+                      <input type="date" value={reportDateFrom} onChange={e => setReportDateFrom(e.target.value)} className="p-2 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-orange-400" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label className="text-xs font-bold text-slate-500">Ate</label>
+                      <input type="date" value={reportDateTo} onChange={e => setReportDateTo(e.target.value)} className="p-2 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-orange-400" />
+                    </div>
+                    {(reportDateFrom || reportDateTo) && (
+                      <button onClick={() => { setReportDateFrom(''); setReportDateTo(''); }} className="text-xs font-bold text-red-400 hover:text-red-600 transition-colors">Limpar</button>
+                    )}
+                  </div>
+                  {(() => {
+                    const filteredByDate = servicosFiltrados.filter(s => {
+                      if (reportDateFrom && (s.date || '') < reportDateFrom) return false;
+                      if (reportDateTo && (s.date || '') > reportDateTo) return false;
+                      return true;
+                    });
+                    const grouped: Record<string, Service[]> = {};
+                    filteredByDate.forEach(s => {
+                      const n = s.staffName || 'Sem Mecanico';
+                      if (!grouped[n]) grouped[n] = [];
+                      grouped[n].push(s);
+                    });
+                    if (filteredByDate.length === 0) return (
+                      <div className="bg-white rounded-3xl border border-slate-200 p-10 text-center text-slate-400 text-sm">Nenhum servico encontrado para o periodo selecionado.</div>
+                    );
+                    return Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b)).map(([nome, svcs]) => {
+                      const totalMec = svcs.reduce((a, s) => a + (s.value ?? 0), 0);
+                      return (
+                        <div key={nome} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                          <div className="flex items-center justify-between px-5 py-3 bg-[#1C1917]">
+                            <div className="flex items-center gap-2">
+                              <UserCircle size={16} className="text-orange-400" />
+                              <span className="font-black text-white text-sm">{nome}</span>
+                              <span className="text-slate-400 text-xs">— {svcs.length} servico{svcs.length !== 1 ? 's' : ''}</span>
+                            </div>
+                            <span className="font-black text-emerald-400 text-sm">{formatBRL(totalMec)}</span>
+                          </div>
+                          <div className="hidden md:grid grid-cols-12 gap-2 px-5 py-2 bg-slate-50 border-b border-slate-100 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                            <span className="col-span-1">Data</span>
+                            <span className="col-span-4">Servico</span>
+                            <span className="col-span-3">Cliente</span>
+                            <span className="col-span-2">Placa</span>
+                            <span className="col-span-1 text-right">Valor</span>
+                            <span className="col-span-1 text-right">Status</span>
+                          </div>
+                          {[...svcs].sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(s => (
+                            <div key={s.id} className="px-4 md:px-5 py-3 border-b border-slate-50 last:border-0 hover:bg-orange-50/30 transition-colors">
+                              <div className="md:hidden space-y-1">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded-lg">{s.date || '—'}</span>
+                                  <StatusBadge status={s.status} paymentMethod={s.paymentMethod} />
+                                </div>
+                                <p className="font-bold text-slate-800 text-sm">{s.description}</p>
+                                <p className="text-xs text-slate-500">{s.clientName || '—'}{s.plate ? ` · ${s.plate}` : ''}</p>
+                                <p className="font-black text-orange-600 text-sm">{formatBRL(s.value)}</p>
+                              </div>
+                              <div className="hidden md:grid grid-cols-12 gap-2 items-center">
+                                <span className="col-span-1 text-[10px] font-black text-orange-600 bg-orange-50 px-2 py-1 rounded-lg text-center">{s.date || '—'}</span>
+                                <div className="col-span-4 min-w-0"><p className="font-bold text-slate-800 text-sm truncate">{s.description}</p></div>
+                                <span className="col-span-3 text-xs text-slate-500 truncate">{s.clientName || '—'}</span>
+                                <span className="col-span-2 text-xs font-bold text-slate-500">{s.plate || '—'}</span>
+                                <span className="col-span-1 text-right font-black text-orange-600 text-sm">{formatBRL(s.value)}</span>
+                                <div className="col-span-1 flex justify-end"><StatusBadge status={s.status} paymentMethod={s.paymentMethod} /></div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Orcamentos */}
+          {activeTab === 'quotes' && (
+            <div className="space-y-4">
+              <div className="md:hidden bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center p-3">
+                <Search className="text-slate-300 mr-2 flex-shrink-0" size={18} />
+                <input placeholder="Procurar orcamentos..." className="bg-transparent outline-none w-full font-medium text-sm" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              </div>
+              <div className="md:hidden space-y-3">
+                {quotes.filter(q => JSON.stringify(q).toLowerCase().includes(searchTerm.toLowerCase())).map(q => (
+                  <div key={q.id} className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-black text-slate-800 truncate">{q.clientName}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{q.vehicleModel || '—'} {q.vehiclePlate ? `· ${q.vehiclePlate}` : ''}</p>
+                      </div>
+                      <QuoteStatusBadge status={q.status} />
+                    </div>
+                    <p className="text-lg font-black text-orange-600 mb-3">{formatBRL(q.total)}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <button onClick={() => printQuote(q)} className="flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl hover:bg-slate-200 transition-colors"><Printer size={13} /> PDF</button>
+                      <button onClick={() => shareWhatsApp(q)} className="flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-bold px-3 py-2 rounded-xl hover:bg-green-100 transition-colors"><WhatsAppIcon size={13} /> WhatsApp</button>
+                      <button onClick={() => openEditQuote(q)} className="flex items-center gap-1.5 bg-orange-50 text-orange-700 text-xs font-bold px-3 py-2 rounded-xl hover:bg-orange-100 transition-colors"><Pencil size={13} /> Editar</button>
+                      {q.status === 'Pendente' && (
+                        <>
+                          <button onClick={() => changeQuoteStatus(q.id, 'Aprovado')} className="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-2 rounded-xl hover:bg-emerald-100 transition-colors"><ThumbsUp size={13} /> Aprovar</button>
+                          <button onClick={() => changeQuoteStatus(q.id, 'Recusado')} className="flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-bold px-3 py-2 rounded-xl hover:bg-red-100 transition-colors"><ThumbsDown size={13} /> Recusar</button>
+                        </>
+                      )}
+                      <button onClick={() => deleteQuote(q.id)} className="p-2 text-slate-300 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
+                    </div>
+                  </div>
+                ))}
+                {quotes.length === 0 && <p className="text-center text-slate-400 py-10 text-sm">Nenhum orcamento ainda.</p>}
+              </div>
+              <div className="hidden md:block bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-4 border-b flex items-center bg-slate-50/50">
+                  <Search className="text-slate-300 mr-2 flex-shrink-0" size={18} />
+                  <input placeholder="Procurar orcamentos..." className="bg-transparent outline-none w-full font-medium text-sm" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+                </div>
+                <table className="w-full text-left">
+                  <thead className="bg-slate-50 text-[10px] font-black uppercase text-slate-400">
+                    <tr>
+                      <th className="p-5">Cliente</th>
+                      <th className="p-5">Veiculo / Placa</th>
+                      <th className="p-5">Total</th>
+                      <th className="p-5">Status</th>
+                      <th className="p-5 text-right">Acoes</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    {quotes.filter(q => JSON.stringify(q).toLowerCase().includes(searchTerm.toLowerCase())).map(q => (
+                      <tr key={q.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="p-5 font-bold text-slate-800 text-sm">{q.clientName}</td>
+                        <td className="p-5 text-sm text-slate-500">{q.vehicleModel || '—'}{q.vehiclePlate ? ` · ${q.vehiclePlate}` : ''}</td>
+                        <td className="p-5 font-black text-orange-600 text-sm">{formatBRL(q.total)}</td>
+                        <td className="p-5"><QuoteStatusBadge status={q.status} /></td>
+                        <td className="p-5 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <button onClick={() => printQuote(q)} className="flex items-center gap-1.5 bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1.5 rounded-xl hover:bg-slate-200 transition-colors"><Printer size={14} /> PDF</button>
+                            <button onClick={() => shareWhatsApp(q)} className="flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-xl hover:bg-green-100 transition-colors"><WhatsAppIcon size={14} /> WhatsApp</button>
+                            <button onClick={() => openEditQuote(q)} className="flex items-center gap-1.5 bg-orange-50 text-orange-700 text-xs font-bold px-3 py-1.5 rounded-xl hover:bg-orange-100 transition-colors"><Pencil size={14} /> Editar</button>
+                            {q.status === 'Pendente' && (
+                              <>
+                                <button onClick={() => changeQuoteStatus(q.id, 'Aprovado')} className="flex items-center gap-1 bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1.5 rounded-xl hover:bg-emerald-100 transition-colors"><ThumbsUp size={13} /> Aprovar</button>
+                                <button onClick={() => changeQuoteStatus(q.id, 'Recusado')} className="flex items-center gap-1 bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-xl hover:bg-red-100 transition-colors"><ThumbsDown size={13} /> Recusar</button>
+                              </>
+                            )}
+                            <button onClick={() => deleteQuote(q.id)} className="text-slate-300 hover:text-red-500 transition-colors p-1"><Trash2 size={17} /></button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    {quotes.length === 0 && (
+                      <tr><td colSpan={5} className="p-10 text-center text-slate-400 text-sm">Nenhum orcamento registrado.</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Tabela / Cards */}
+          {(['services', 'staff', 'vehicles', 'customers', 'clients'] as TabName[]).includes(activeTab) && (
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="p-3 md:p-4 border-b flex items-center bg-slate-50/50">
+                <Search className="text-slate-300 mr-2 flex-shrink-0" size={18} />
+                <input
+                  placeholder={activeTab === 'services' ? 'Buscar por cliente, placa ou servico...' : activeTab === 'clients' ? 'Buscar por nome, placa ou veiculo...' : 'Procurar na base...'}
+                  className="bg-transparent outline-none w-full font-medium text-sm"
+                  onChange={e => setSearchTerm(e.target.value)}
+                />
+              </div>
+              {activeTab === 'services' && (
+                <div className="flex items-center gap-2 px-4 py-2.5 border-b bg-slate-50/30 overflow-x-auto">
+                  {(['Todos', 'Pendente', 'Entregue'] as const).map(f => (
+                    <button key={f} onClick={() => setServiceFilter(f)}
+                      className={`flex-shrink-0 px-3 py-1.5 rounded-full text-[11px] font-black transition-all ${
+                        serviceFilter === f
+                          ? f === 'Todos' ? 'bg-slate-800 text-white' : f === 'Pendente' ? 'bg-amber-500 text-white' : 'bg-emerald-500 text-white'
+                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                      }`}>
+                      {f === 'Todos' ? `Todos (${services.length})` : f === 'Pendente' ? `Pendentes (${services.filter(s => s.status === 'Pendente').length})` : `Entregues (${services.filter(s => s.status === 'Entregue').length})`}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div className="md:hidden divide-y divide-slate-100">
+                {tableData.map(item => {
+                  const cells = getTableCells(item);
+                  const isSvc = activeTab === 'services';
+                  const svc = isSvc ? (item as Service) : null;
+                  return (
+                    <div key={item.id} className="flex items-center justify-between p-4">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-bold text-slate-800 text-sm truncate">{cells[0]}</p>
+                        {isSvc && svc
+                          ? <div className="text-xs text-slate-500 mt-0.5 truncate flex items-center gap-1">
+                              {svc.plate && <span>{svc.plate} ·</span>}
+                              {svc.staffName
+                                ? <button onClick={() => setSelectedStaffName(svc.staffName)} className="hover:text-orange-600 transition-colors font-bold truncate text-left">{svc.staffName}</button>
+                                : <span>Sem mecanico</span>}
+                            </div>
+                          : <p className="text-xs text-slate-500 mt-0.5 truncate">{cells[1]}</p>}
+                        {isSvc && svc
+                          ? <div className="mt-1"><StatusBadge status={svc.status} paymentMethod={svc.paymentMethod} /></div>
+                          : <p className="text-[10px] text-slate-400 mt-0.5 uppercase font-bold">{cells[2]}</p>}
+                      </div>
+                      <div className="flex items-center gap-2 ml-3 flex-shrink-0">
+                        {isSvc && svc && svc.status === 'Pendente' && (
+                          <button onClick={() => openDelivery(item.id)} className="flex items-center gap-1 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-1.5 rounded-xl hover:bg-emerald-600 transition-colors">
+                            <CheckCircle size={12} /> Entregar
+                          </button>
+                        )}
+                        <button onClick={() => handleDelete(item.id)} className="text-slate-300 hover:text-red-500 transition-colors p-1"><Trash2 size={17} /></button>
+                      </div>
+                    </div>
+                  );
+                })}
+                {tableData.length === 0 && <p className="p-8 text-center text-slate-400 text-sm">Nenhum registo encontrado.</p>}
+              </div>
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead className="bg-slate-50 text-[10px] font-black uppercase text-slate-400">
+                    <tr>
+                      {tableHeaders.map((h, i) => <th key={i} className="p-6">{h}</th>)}
+                      <th className="p-6 text-right">Acao</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    {tableData.map(item => {
+                      const cells = getTableCells(item);
+                      const isSvc = activeTab === 'services';
+                      const svc = isSvc ? (item as Service) : null;
+                      return (
+                        <tr key={item.id} className="hover:bg-slate-50 transition-colors">
+                          {cells.map((cell, i) => (
+                            <td key={i} className={`p-6 text-sm ${i === 0 ? 'font-bold text-slate-800' : 'font-medium text-slate-500'}`}>
+                              {isSvc && i === 2 && svc
+                                ? <StatusBadge status={svc.status} paymentMethod={svc.paymentMethod} />
+                                : isSvc && i === 1 && svc
+                                  ? <span className="flex items-center gap-1">
+                                      {svc.plate && <span>{svc.plate} ·</span>}
+                                      {svc.staffName
+                                        ? <button onClick={() => setSelectedStaffName(svc.staffName)} className="hover:text-orange-600 transition-colors font-bold text-left">{svc.staffName}</button>
+                                        : <span>Sem mecanico</span>}
+                                    </span>
+                                  : cell}
+                            </td>
+                          ))}
+                          <td className="p-6 text-right">
+                            <div className="flex items-center justify-end gap-3">
+                              {isSvc && svc && svc.status === 'Pendente' && (
+                                <button onClick={() => openDelivery(item.id)} className="flex items-center gap-1.5 bg-emerald-500 text-white text-xs font-black px-3 py-1.5 rounded-xl hover:bg-emerald-600 transition-colors">
+                                  <CheckCircle size={14} /> Entregar
+                                </button>
+                              )}
+                              <button onClick={() => handleDelete(item.id)} className="text-slate-300 hover:text-red-500 transition-colors"><Trash2 size={18} /></button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    {tableData.length === 0 && (
+                      <tr><td colSpan={4} className="p-10 text-center text-slate-400 text-sm">Nenhum registo encontrado.</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </main>
+
+        {/* Bottom Nav (mobile) */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#1C1917] border-t border-white/5 flex z-30">
+          <BottomNavItem id="dashboard" icon={LayoutDashboard} label="Home"       active={activeTab} onClick={handleTabChange} />
+          <BottomNavItem id="services"  icon={Wrench}          label="Servicos"   active={activeTab} onClick={handleTabChange} />
+          <BottomNavItem id="quotes"    icon={FileText}        label="Orcamentos" active={activeTab} onClick={handleTabChange} />
+          <BottomNavItem id="clients"   icon={Users}           label="Clientes"   active={activeTab} onClick={handleTabChange} />
+          <button onClick={() => setSidebarOpen(true)} className="flex-1 flex flex-col items-center justify-center py-3 text-slate-400 hover:text-white transition-colors">
+            <Menu size={20} />
+            <span className="text-[9px] mt-1 font-bold">Menu</span>
+          </button>
+        </nav>
+      </div>
+
       {/* Modal de registo (OS / Veículo / etc) */}
       {showModal && (
         <div
