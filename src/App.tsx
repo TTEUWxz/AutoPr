@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+﻿import React, { useState, useEffect, useMemo } from 'react';
 import {
   LayoutDashboard, Users, Wrench, Plus, Search,
   Trash2, DollarSign, Loader2, BarChart3,
@@ -86,15 +86,15 @@ const getModalType = (tab: TabName): ModalType => {
 };
 const getAddLabel = (tab: TabName) => {
   const map: Partial<Record<TabName, string>> = {
-    staff: 'Novo Mecânico', vehicles: 'Novo Veículo', customers: 'Novo Cliente', quotes: 'Novo Orçamento', clients: 'Novo Cadastro',
+    staff: 'Novo MecÃ¢nico', vehicles: 'Novo VeÃ­culo', customers: 'Novo Cliente', quotes: 'Novo OrÃ§amento', clients: 'Novo Cadastro',
   };
   return map[tab] ?? 'Nova OS';
 };
 const getTabLabel = (tab: TabName) => {
   const map: Record<TabName, string> = {
-    dashboard: 'Dashboard', services: 'Serviços', quotes: 'Orçamentos',
-    clients: 'Clientes & Carros', staff: 'Equipa', reports: 'Relatórios',
-    vehicles: 'Veículos', customers: 'Clientes',
+    dashboard: 'Dashboard', services: 'ServiÃ§os', quotes: 'OrÃ§amentos',
+    clients: 'Clientes & Carros', staff: 'Equipa', reports: 'RelatÃ³rios',
+    vehicles: 'VeÃ­culos', customers: 'Clientes',
   };
   return map[tab] ?? tab;
 };
@@ -105,7 +105,7 @@ const formatBRL = (val?: number) =>
 // App
 // ---------------------------------------------------------------------------
 const App: React.FC = () => {
-  // ── Auth state ──
+  // â”€â”€ Auth state â”€â”€
   const [isAuthenticated, setIsAuthenticated] = useState(isAuthValid);
   const [showChangePwd,   setShowChangePwd]    = useState(false);
   const [pwdInput,        setPwdInput]         = useState('');
@@ -115,7 +115,7 @@ const App: React.FC = () => {
   const [confirmPwd,      setConfirmPwd]       = useState('');
   const [newPwdVisible,   setNewPwdVisible]    = useState(false);
 
-  // ── App state ──
+  // â”€â”€ App state â”€â”€
   const [activeTab, setActiveTab] = useState<TabName>('dashboard');
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading]     = useState(true);
@@ -139,12 +139,12 @@ const App: React.FC = () => {
     paymentMethod: 'Dinheiro', staffName: '',
   });
 
-  // ── Entrega de serviço ──
+  // â”€â”€ Entrega de serviÃ§o â”€â”€
   const [showDeliveryModal,   setShowDeliveryModal]   = useState(false);
   const [deliveryServiceId,   setDeliveryServiceId]   = useState<string | null>(null);
   const [deliveryPayment,     setDeliveryPayment]     = useState('Dinheiro');
 
-  // ── Orçamentos ──
+  // â”€â”€ OrÃ§amentos â”€â”€
   const [quotes,          setQuotes]          = useState<Quote[]>([]);
   const [quoteClient,     setQuoteClient]     = useState('');
   const [quoteVehicle,    setQuoteVehicle]    = useState('');
@@ -169,35 +169,35 @@ const App: React.FC = () => {
       const ts = (offset: number) => { const dt = new Date(today); dt.setDate(dt.getDate() - offset); return dt.toISOString(); };
 
       const demoStaff: Staff[] = [
-        { id: 's1', name: 'Carlos Augusto',   specialty: 'Motor e Injeção',     createdAt: ts(90) },
-        { id: 's2', name: 'Rodrigo Ferreira', specialty: 'Freios e Suspensão',  createdAt: ts(85) },
-        { id: 's3', name: 'Leandro Souza',    specialty: 'Elétrica Automotiva', createdAt: ts(70) },
-        { id: 's4', name: 'Fábio Mendes',     specialty: 'Funilaria e Pintura', createdAt: ts(60) },
+        { id: 's1', name: 'Carlos Augusto',   specialty: 'Motor e InjeÃ§Ã£o',     createdAt: ts(90) },
+        { id: 's2', name: 'Rodrigo Ferreira', specialty: 'Freios e SuspensÃ£o',  createdAt: ts(85) },
+        { id: 's3', name: 'Leandro Souza',    specialty: 'ElÃ©trica Automotiva', createdAt: ts(70) },
+        { id: 's4', name: 'FÃ¡bio Mendes',     specialty: 'Funilaria e Pintura', createdAt: ts(60) },
       ];
       const demoClients: ClientRecord[] = [
         { id: 'c1', name: 'Marcos Oliveira',    phone: '(21) 99812-3344', vehicleModel: 'Chevrolet Onix 2021',  vehiclePlate: 'RJA-2E34', arrivedAt: d(1),  createdAt: ts(1)  },
-        { id: 'c2', name: 'Patrícia Mendonça',  phone: '(21) 97654-8821', vehicleModel: 'Volkswagen Polo 2022', vehiclePlate: 'RJB-4F12', arrivedAt: d(3),  createdAt: ts(3)  },
-        { id: 'c3', name: 'André Lima',         phone: '(21) 98345-1177', vehicleModel: 'Fiat Strada 2020',     vehiclePlate: 'RJC-7H90', arrivedAt: d(5),  createdAt: ts(5)  },
+        { id: 'c2', name: 'PatrÃ­cia MendonÃ§a',  phone: '(21) 97654-8821', vehicleModel: 'Volkswagen Polo 2022', vehiclePlate: 'RJB-4F12', arrivedAt: d(3),  createdAt: ts(3)  },
+        { id: 'c3', name: 'AndrÃ© Lima',         phone: '(21) 98345-1177', vehicleModel: 'Fiat Strada 2020',     vehiclePlate: 'RJC-7H90', arrivedAt: d(5),  createdAt: ts(5)  },
         { id: 'c4', name: 'Fernanda Costa',     phone: '(21) 96781-5502', vehicleModel: 'Toyota Corolla 2023',  vehiclePlate: 'RJD-9K55', arrivedAt: d(8),  createdAt: ts(8)  },
         { id: 'c5', name: 'Roberto Nascimento', phone: '(21) 99234-6610', vehicleModel: 'Hyundai HB20 2021',    vehiclePlate: 'RJE-1M78', arrivedAt: d(12), createdAt: ts(12) },
         { id: 'c6', name: 'Juliana Ramos',      phone: '(21) 98876-3345', vehicleModel: 'Chevrolet Cruze 2019', vehiclePlate: 'RJF-3N21', arrivedAt: d(18), createdAt: ts(18) },
         { id: 'c7', name: 'Diego Cardoso',      phone: '(21) 97112-8890', vehicleModel: 'Ford Ka 2020',         vehiclePlate: 'RJG-5P44', arrivedAt: d(25), createdAt: ts(25) },
       ];
       const demoServices: Service[] = [
-        { id: 'sv1',  description: 'Revisão completa 30.000 km',        clientName: 'Marcos Oliveira',    plate: 'RJA-2E34', staffName: 'Carlos Augusto',   paymentMethod: 'Pix',      status: 'Pendente', value: 380,  date: d(0),  createdAt: ts(0)  },
-        { id: 'sv2',  description: 'Troca de pastilhas de freio',        clientName: 'Patrícia Mendonça',  plate: 'RJB-4F12', staffName: 'Rodrigo Ferreira', paymentMethod: 'Pix',      status: 'Pendente', value: 240,  date: d(1),  createdAt: ts(1)  },
-        { id: 'sv3',  description: 'Diagnóstico elétrico + bateria',     clientName: 'André Lima',         plate: 'RJC-7H90', staffName: 'Leandro Souza',    paymentMethod: 'Dinheiro', status: 'Entregue', value: 310,  date: d(2),  createdAt: ts(2)  },
-        { id: 'sv4',  description: 'Alinhamento e balanceamento',        clientName: 'Fernanda Costa',     plate: 'RJD-9K55', staffName: 'Rodrigo Ferreira', paymentMethod: 'Cartão',   status: 'Entregue', value: 160,  date: d(3),  createdAt: ts(3)  },
-        { id: 'sv5',  description: 'Troca de óleo e filtros',            clientName: 'Roberto Nascimento', plate: 'RJE-1M78', staffName: 'Carlos Augusto',   paymentMethod: 'Dinheiro', status: 'Entregue', value: 210,  date: d(4),  createdAt: ts(4)  },
-        { id: 'sv6',  description: 'Reparo sistema de injeção eletrônica', clientName: 'Juliana Ramos',   plate: 'RJF-3N21', staffName: 'Carlos Augusto',   paymentMethod: 'Pix',      status: 'Entregue', value: 490,  date: d(5),  createdAt: ts(5)  },
-        { id: 'sv7',  description: 'Funilaria – amasso porta dianteira',  clientName: 'Diego Cardoso',     plate: 'RJG-5P44', staffName: 'Fábio Mendes',     paymentMethod: 'Cartão',   status: 'Entregue', value: 850,  date: d(7),  createdAt: ts(7)  },
+        { id: 'sv1',  description: 'RevisÃ£o completa 30.000 km',        clientName: 'Marcos Oliveira',    plate: 'RJA-2E34', staffName: 'Carlos Augusto',   paymentMethod: 'Pix',      status: 'Pendente', value: 380,  date: d(0),  createdAt: ts(0)  },
+        { id: 'sv2',  description: 'Troca de pastilhas de freio',        clientName: 'PatrÃ­cia MendonÃ§a',  plate: 'RJB-4F12', staffName: 'Rodrigo Ferreira', paymentMethod: 'Pix',      status: 'Pendente', value: 240,  date: d(1),  createdAt: ts(1)  },
+        { id: 'sv3',  description: 'DiagnÃ³stico elÃ©trico + bateria',     clientName: 'AndrÃ© Lima',         plate: 'RJC-7H90', staffName: 'Leandro Souza',    paymentMethod: 'Dinheiro', status: 'Entregue', value: 310,  date: d(2),  createdAt: ts(2)  },
+        { id: 'sv4',  description: 'Alinhamento e balanceamento',        clientName: 'Fernanda Costa',     plate: 'RJD-9K55', staffName: 'Rodrigo Ferreira', paymentMethod: 'CartÃ£o',   status: 'Entregue', value: 160,  date: d(3),  createdAt: ts(3)  },
+        { id: 'sv5',  description: 'Troca de Ã³leo e filtros',            clientName: 'Roberto Nascimento', plate: 'RJE-1M78', staffName: 'Carlos Augusto',   paymentMethod: 'Dinheiro', status: 'Entregue', value: 210,  date: d(4),  createdAt: ts(4)  },
+        { id: 'sv6',  description: 'Reparo sistema de injeÃ§Ã£o eletrÃ´nica', clientName: 'Juliana Ramos',   plate: 'RJF-3N21', staffName: 'Carlos Augusto',   paymentMethod: 'Pix',      status: 'Entregue', value: 490,  date: d(5),  createdAt: ts(5)  },
+        { id: 'sv7',  description: 'Funilaria â€“ amasso porta dianteira',  clientName: 'Diego Cardoso',     plate: 'RJG-5P44', staffName: 'FÃ¡bio Mendes',     paymentMethod: 'CartÃ£o',   status: 'Entregue', value: 850,  date: d(7),  createdAt: ts(7)  },
         { id: 'sv8',  description: 'Troca amortecedores traseiros',       clientName: 'Marcos Oliveira',   plate: 'RJA-2E34', staffName: 'Rodrigo Ferreira', paymentMethod: 'Pix',      status: 'Entregue', value: 620,  date: d(10), createdAt: ts(10) },
         { id: 'sv9',  description: 'Limpeza de bicos injetores',          clientName: 'Fernanda Costa',    plate: 'RJD-9K55', staffName: 'Carlos Augusto',   paymentMethod: 'Dinheiro', status: 'Entregue', value: 280,  date: d(12), createdAt: ts(12) },
-        { id: 'sv10', description: 'Instalação de som automotivo',        clientName: 'André Lima',        plate: 'RJC-7H90', staffName: 'Leandro Souza',    paymentMethod: 'Cartão',   status: 'Entregue', value: 420,  date: d(15), createdAt: ts(15) },
+        { id: 'sv10', description: 'InstalaÃ§Ã£o de som automotivo',        clientName: 'AndrÃ© Lima',        plate: 'RJC-7H90', staffName: 'Leandro Souza',    paymentMethod: 'CartÃ£o',   status: 'Entregue', value: 420,  date: d(15), createdAt: ts(15) },
       ];
       const demoQuotes: Quote[] = [
-        { id: 'q1', clientName: 'Roberto Nascimento', vehicleModel: 'Hyundai HB20 2021', vehiclePlate: 'RJE-1M78', phone: '(21) 99234-6610', email: '', address: 'Rua das Flores, 142', km: '48.200', yearModel: '2021/2022', discount: 50, items: [{ description: 'Troca de correia dentada + tensor', qty: 1, unitValue: 380 }, { description: 'Fluido de freio DOT 4', qty: 1, unitValue: 65 }, { description: 'Mão de obra', qty: 1, unitValue: 200 }], total: 595, status: 'Pendente', observations: 'Cliente relata barulho ao frear.', paymentConditions: '50% entrada + saldo na retirada', validDays: '7', createdAt: ts(1) },
-        { id: 'q2', clientName: 'Juliana Ramos', vehicleModel: 'Chevrolet Cruze 2019', vehiclePlate: 'RJF-3N21', phone: '(21) 98876-3345', email: 'juliana@email.com', address: 'Av. Principal, 800', km: '72.500', yearModel: '2019/2020', discount: 0, items: [{ description: 'Revisão geral 70.000 km', qty: 1, unitValue: 420 }, { description: 'Troca de velas de ignição', qty: 4, unitValue: 45 }, { description: 'Filtro de ar', qty: 1, unitValue: 80 }], total: 680, status: 'Aprovado', observations: '', paymentConditions: 'À vista no PIX', validDays: '10', createdAt: ts(4) },
+        { id: 'q1', clientName: 'Roberto Nascimento', vehicleModel: 'Hyundai HB20 2021', vehiclePlate: 'RJE-1M78', phone: '(21) 99234-6610', email: '', address: 'Rua das Flores, 142', km: '48.200', yearModel: '2021/2022', discount: 50, items: [{ description: 'Troca de correia dentada + tensor', qty: 1, unitValue: 380 }, { description: 'Fluido de freio DOT 4', qty: 1, unitValue: 65 }, { description: 'MÃ£o de obra', qty: 1, unitValue: 200 }], total: 595, status: 'Pendente', observations: 'Cliente relata barulho ao frear.', paymentConditions: '50% entrada + saldo na retirada', validDays: '7', createdAt: ts(1) },
+        { id: 'q2', clientName: 'Juliana Ramos', vehicleModel: 'Chevrolet Cruze 2019', vehiclePlate: 'RJF-3N21', phone: '(21) 98876-3345', email: 'juliana@email.com', address: 'Av. Principal, 800', km: '72.500', yearModel: '2019/2020', discount: 0, items: [{ description: 'RevisÃ£o geral 70.000 km', qty: 1, unitValue: 420 }, { description: 'Troca de velas de igniÃ§Ã£o', qty: 4, unitValue: 45 }, { description: 'Filtro de ar', qty: 1, unitValue: 80 }], total: 680, status: 'Aprovado', observations: '', paymentConditions: 'Ã€ vista no PIX', validDays: '10', createdAt: ts(4) },
       ];
 
       saveCol('staff', demoStaff);
@@ -227,14 +227,14 @@ const App: React.FC = () => {
     } else {
       const migrated: ClientRecord[] = [
         ...oldCustomers.map(c => ({ id: c.id, createdAt: c.createdAt, name: c.name, phone: c.phone, vehicleModel: '', vehiclePlate: '', arrivedAt: c.createdAt?.substring(0, 10) || '' })),
-        ...oldVehicles.map(v => ({ id: v.id, createdAt: v.createdAt, name: v.model || 'Veículo', vehicleModel: v.model, vehiclePlate: v.plate || '', arrivedAt: v.createdAt?.substring(0, 10) || '' })),
+        ...oldVehicles.map(v => ({ id: v.id, createdAt: v.createdAt, name: v.model || 'VeÃ­culo', vehicleModel: v.model, vehiclePlate: v.plate || '', arrivedAt: v.createdAt?.substring(0, 10) || '' })),
       ];
       if (migrated.length > 0) { saveCol('clientrecords', migrated); setClientRecords(migrated); }
     }
     setLoading(false);
   }, []);
 
-  // ── Auth actions ──
+  // â”€â”€ Auth actions â”€â”€
   const handleAdminLogin = () => {
     if (pwdInput === getStoredPwd()) {
       setIsAuthenticated(true);
@@ -261,7 +261,7 @@ const App: React.FC = () => {
       return;
     }
     if (newPwd !== confirmPwd) {
-      setPwdError('As senhas não coincidem.');
+      setPwdError('As senhas nÃ£o coincidem.');
       return;
     }
     localStorage.setItem(PWD_KEY, newPwd);
@@ -278,14 +278,14 @@ const App: React.FC = () => {
     setSearchTerm('');
   };
 
-  // ── Reports ──
+  // â”€â”€ Reports â”€â”€
   const reportData = useMemo(() => {
     const todayStr = new Date().toISOString().split('T')[0];
     const calcStats = (list: Service[]) => {
       const total = list.reduce((acc, curr) => acc + (curr.value ?? 0), 0);
       const staffPerf = list.reduce<Record<string, { count: number; total: number }>>(
         (acc, curr) => {
-          const name = curr.staffName || 'Não Atribuído';
+          const name = curr.staffName || 'NÃ£o AtribuÃ­do';
           if (!acc[name]) acc[name] = { count: 0, total: 0 };
           acc[name].count += 1;
           acc[name].total += (curr.value ?? 0);
@@ -300,9 +300,9 @@ const App: React.FC = () => {
     };
   }, [services]);
 
-  // ── CRUD ──
+  // â”€â”€ CRUD â”€â”€
   const handleSave = () => {
-    // Validação básica
+    // ValidaÃ§Ã£o bÃ¡sica
     if (modalType === 'service' && !formData.description?.trim()) return;
     if (modalType === 'staff' && !formData.name?.trim()) return;
     if (modalType === 'vehicle' && !formData.model?.trim()) return;
@@ -365,7 +365,7 @@ const App: React.FC = () => {
     if (activeTab === 'clients')   setClientRecords(prev => prev.filter(i => i.id !== id));
   };
 
-  // ── Entregar serviço (atualiza status + pagamento) ──
+  // â”€â”€ Entregar serviÃ§o (atualiza status + pagamento) â”€â”€
   const openDelivery = (id: string) => {
     setDeliveryServiceId(id);
     setDeliveryPayment('Dinheiro');
@@ -385,7 +385,7 @@ const App: React.FC = () => {
     setDeliveryServiceId(null);
   };
 
-  // ── Orçamento: abrir edição ──
+  // â”€â”€ OrÃ§amento: abrir ediÃ§Ã£o â”€â”€
   const openEditQuote = (q: Quote) => {
     setEditingQuoteId(q.id);
     setQuoteClient(q.clientName);
@@ -405,7 +405,7 @@ const App: React.FC = () => {
     setShowModal(true);
   };
 
-  // ── Orçamento: salvar (criar ou editar) ──
+  // â”€â”€ OrÃ§amento: salvar (criar ou editar) â”€â”€
   const handleSaveQuote = () => {
     const validItems = quoteItems.filter(i => i.description.trim() !== '');
     if (!quoteClient.trim() || validItems.length === 0) return;
@@ -443,21 +443,21 @@ const App: React.FC = () => {
     setQuoteObservations(''); setQuotePayment(''); setQuoteValidDays('');
   };
 
-  // ── Orçamento: mudar status ──
+  // â”€â”€ OrÃ§amento: mudar status â”€â”€
   const changeQuoteStatus = (id: string, status: Quote['status']) => {
     const updated = quotes.map(q => q.id === id ? { ...q, status } : q);
     setQuotes(updated);
     saveCol('quotes', updated);
   };
 
-  // ── Orçamento: deletar ──
+  // â”€â”€ OrÃ§amento: deletar â”€â”€
   const deleteQuote = (id: string) => {
     const updated = quotes.filter(q => q.id !== id);
     setQuotes(updated);
     saveCol('quotes', updated);
   };
 
-  // ── Orçamento: gerar PDF (abre janela de impressão) ──
+  // â”€â”€ OrÃ§amento: gerar PDF (abre janela de impressÃ£o) â”€â”€
   const printQuote = (quote: Quote) => {
     const subtotal = quote.items.reduce((acc, i) => acc + i.qty * i.unitValue, 0);
     const discountVal = quote.discount ?? 0;
@@ -486,7 +486,7 @@ const App: React.FC = () => {
       </tr>`).join('');
 
     const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
-      <title>Nota de Orçamento – Gilmar Auto Center</title>
+      <title>Nota de OrÃ§amento â€“ Gilmar Auto Center</title>
       <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:Arial,sans-serif;color:#000;font-size:12px;padding:28px 32px;background:#fff}
@@ -550,12 +550,12 @@ const App: React.FC = () => {
       <div class="header">
         <div class="logo-wrap">
           <div class="logo-brand">AutoCenter Pro</div>
-          <div class="logo-sub">— SISTEMA DE GESTÃO —</div>
+          <div class="logo-sub">â€” SISTEMA DE GESTÃƒO â€”</div>
         </div>
         <div class="header-right">
-          <div class="nota-title">Nota de Orçamento</div>
+          <div class="nota-title">Nota de OrÃ§amento</div>
           <table class="header-fields">
-            <tr><td>Nº do Orçamento:</td><td>${quoteNum}</td></tr>
+            <tr><td>NÂº do OrÃ§amento:</td><td>${quoteNum}</td></tr>
             <tr><td>Data:</td><td>${dateStr}</td></tr>
           </table>
         </div>
@@ -568,7 +568,7 @@ const App: React.FC = () => {
           <span class="client-value">${quote.clientName}</span>
         </div>
         <div class="client-row">
-          <span class="client-label">Endereço:</span>
+          <span class="client-label">EndereÃ§o:</span>
           <span class="client-value">${quote.address ?? ''}</span>
         </div>
         <div class="client-row">
@@ -579,7 +579,7 @@ const App: React.FC = () => {
         </div>
         <div class="client-row">
           <div class="client-half">
-            <div class="client-sub"><span class="client-label">Veículo:</span><span class="client-value">${quote.vehicleModel ?? ''}</span></div>
+            <div class="client-sub"><span class="client-label">VeÃ­culo:</span><span class="client-value">${quote.vehicleModel ?? ''}</span></div>
             <div class="client-sub"><span class="client-label">Placa:</span><span class="client-value">${quote.vehiclePlate ?? ''}</span></div>
           </div>
         </div>
@@ -598,7 +598,7 @@ const App: React.FC = () => {
           <thead>
             <tr>
               <th style="width:40px;text-align:center">Item</th>
-              <th>Descrição dos Serviços / Peças</th>
+              <th>DescriÃ§Ã£o dos ServiÃ§os / PeÃ§as</th>
               <th style="width:60px;text-align:center">Qtd.</th>
               <th style="width:100px;text-align:center">Valor Unit.</th>
               <th style="width:100px;text-align:center">Valor Total</th>
@@ -611,17 +611,17 @@ const App: React.FC = () => {
         </table>
       </div>
 
-      <!-- RODAPÉ: observações + totais -->
+      <!-- RODAPÃ‰: observaÃ§Ãµes + totais -->
       <div class="footer-section">
         <div class="footer-left">
-          <span class="fl-label">Observações:</span>
+          <span class="fl-label">ObservaÃ§Ãµes:</span>
           <div class="obs-line">${quote.observations ?? ''}</div>
           <div class="obs-line"></div>
           <div class="obs-line"></div>
           <br>
-          <span class="fl-label">Condições de Pagamento:</span>
+          <span class="fl-label">CondiÃ§Ãµes de Pagamento:</span>
           <div class="pagamento-line">${quote.paymentConditions ?? ''}</div>
-          <div class="validade">Orçamento válido por <u>&nbsp;&nbsp;${quote.validDays ?? '___'}&nbsp;&nbsp;</u> dias.</div>
+          <div class="validade">OrÃ§amento vÃ¡lido por <u>&nbsp;&nbsp;${quote.validDays ?? '___'}&nbsp;&nbsp;</u> dias.</div>
         </div>
         <div class="footer-right">
           <div class="totals-box">
@@ -648,9 +648,9 @@ const App: React.FC = () => {
       <!-- BARRA INFERIOR -->
       <div class="bottom-bar">
         <div style="display:flex;gap:28px">
-          <div class="bottom-item"><span class="bottom-icon">🔧</span><span><b>AutoCenter Pro</b> — Sistema de Gestão</span></div>
+          <div class="bottom-item"><span class="bottom-icon">ðŸ”§</span><span><b>AutoCenter Pro</b> â€” Sistema de GestÃ£o</span></div>
         </div>
-        <div class="bottom-item"><span class="bottom-icon">📋</span><div>Documento gerado automaticamente pelo sistema</div></div>
+        <div class="bottom-item"><span class="bottom-icon">ðŸ“‹</span><div>Documento gerado automaticamente pelo sistema</div></div>
       </div>
 
       <script>window.onload=()=>{window.print()}<\/script></body></html>`;
@@ -658,27 +658,27 @@ const App: React.FC = () => {
     if (win) { win.document.write(html); win.document.close(); }
   };
 
-  // ── Orçamento: enviar via WhatsApp ──
+  // â”€â”€ OrÃ§amento: enviar via WhatsApp â”€â”€
   const shareWhatsApp = (quote: Quote) => {
     const num = `#${quote.id.slice(-6).toUpperCase()}`;
     const data = new Date(quote.createdAt).toLocaleDateString('pt-BR');
     const itens = quote.items
-      .map(i => `  • ${i.description} (${i.qty}x) — ${formatBRL(i.qty * i.unitValue)}`)
+      .map(i => `  â€¢ ${i.description} (${i.qty}x) â€” ${formatBRL(i.qty * i.unitValue)}`)
       .join('\n');
-    const veiculo = [quote.vehicleModel, quote.vehiclePlate].filter(Boolean).join(' · ');
+    const veiculo = [quote.vehicleModel, quote.vehiclePlate].filter(Boolean).join(' Â· ');
     const msg = [
-      `🔧 *Orçamento AutoCenter Pro* ${num}`,
-      `📅 Data: ${data}`,
+      `ðŸ”§ *OrÃ§amento AutoCenter Pro* ${num}`,
+      `ðŸ“… Data: ${data}`,
       ``,
-      `👤 Cliente: *${quote.clientName}*`,
-      veiculo ? `🚗 Veículo: ${veiculo}` : '',
+      `ðŸ‘¤ Cliente: *${quote.clientName}*`,
+      veiculo ? `ðŸš— VeÃ­culo: ${veiculo}` : '',
       ``,
-      `📋 *Serviços / Itens:*`,
+      `ðŸ“‹ *ServiÃ§os / Itens:*`,
       itens,
       ``,
-      `💰 *Total: ${formatBRL(quote.total)}*`,
+      `ðŸ’° *Total: ${formatBRL(quote.total)}*`,
       ``,
-      `📞 Entre em contato conosco para mais informações.`,
+      `ðŸ“ž Entre em contato conosco para mais informaÃ§Ãµes.`,
     ].filter(l => l !== null && l !== undefined).join('\n');
 
     const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
@@ -696,8 +696,8 @@ const App: React.FC = () => {
     if (activeTab === 'staff')    return ['Profissional', 'Especialidade', 'Admitido em'];
     if (activeTab === 'vehicles') return ['Modelo', 'Placa', 'Cadastrado em'];
     if (activeTab === 'customers') return ['Cliente', 'Telefone', 'Cadastrado em'];
-    if (activeTab === 'clients')  return ['Cliente · Telefone', 'Veículo · Placa', 'Chegada'];
-    return ['Serviço / Cliente', 'Placa · Mecânico', 'Status'];
+    if (activeTab === 'clients')  return ['Cliente Â· Telefone', 'VeÃ­culo Â· Placa', 'Chegada'];
+    return ['ServiÃ§o / Cliente', 'Placa Â· MecÃ¢nico', 'Status'];
   };
   const getTableCells = (item: BaseItem) => {
     if (activeTab === 'staff')     { const s = item as Staff;     return [s.name, s.specialty || '-', s.createdAt?.substring(0,10) || '-']; }
@@ -705,32 +705,32 @@ const App: React.FC = () => {
     if (activeTab === 'customers') { const c = item as Customer;  return [c.name, c.phone || '-', c.createdAt?.substring(0,10) || '-']; }
     if (activeTab === 'clients') {
       const cr = item as ClientRecord;
-      const namePhone = cr.phone ? `${cr.name}  ·  ${cr.phone}` : cr.name;
-      const vehicleInfo = [cr.vehicleModel, cr.vehiclePlate].filter(Boolean).join('  ·  ') || '—';
-      return [namePhone, vehicleInfo, cr.arrivedAt || '—'];
+      const namePhone = cr.phone ? `${cr.name}  Â·  ${cr.phone}` : cr.name;
+      const vehicleInfo = [cr.vehicleModel, cr.vehiclePlate].filter(Boolean).join('  Â·  ') || 'â€”';
+      return [namePhone, vehicleInfo, cr.arrivedAt || 'â€”'];
     }
     const sv = item as Service;
-    const svcTitle = sv.clientName ? `${sv.description} · ${sv.clientName}` : sv.description;
-    const svcSub   = [sv.plate, sv.staffName || 'Sem mecânico'].filter(Boolean).join(' · ');
+    const svcTitle = sv.clientName ? `${sv.description} Â· ${sv.clientName}` : sv.description;
+    const svcSub   = [sv.plate, sv.staffName || 'Sem mecÃ¢nico'].filter(Boolean).join(' Â· ');
     return [svcTitle, svcSub, sv.status || 'Pendente'];
   };
 
   if (loading) return (
-    <div className="h-screen flex items-center justify-center bg-[#0F172A]">
+    <div className="h-screen flex items-center justify-center bg-[#1C1917]">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/50">
+        <div className="w-12 h-12 rounded-2xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-900/50">
           <Wrench size={24} className="text-white" />
         </div>
-        <Loader2 className="animate-spin text-blue-400" size={24} />
+        <Loader2 className="animate-spin text-orange-400" size={24} />
       </div>
     </div>
   );
 
-  // ── Tela de login ──
+  // â”€â”€ Tela de login â”€â”€
   if (!isAuthenticated) return (
-    <div className="h-screen flex overflow-hidden bg-[#0F172A]">
-      {/* Painel esquerdo — decorativo */}
-      <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 p-12 relative overflow-hidden">
+    <div className="h-screen flex overflow-hidden bg-[#1C1917]">
+      {/* Painel esquerdo â€” decorativo */}
+      <div className="hidden lg:flex flex-col justify-between w-1/2 bg-gradient-to-br from-orange-700 via-orange-600 to-red-700 p-12 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{backgroundImage:'radial-gradient(circle at 30% 20%, white 1px, transparent 1px), radial-gradient(circle at 70% 80%, white 1px, transparent 1px)', backgroundSize:'60px 60px'}} />
         <div className="relative z-10 flex items-center gap-3">
           <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
@@ -739,25 +739,25 @@ const App: React.FC = () => {
           <span className="text-white font-black text-lg tracking-tight">AutoCenter Pro</span>
         </div>
         <div className="relative z-10">
-          <h2 className="text-white text-4xl font-black leading-tight mb-4">Gestão completa<br/>da sua oficina<br/>em um só lugar.</h2>
-          <p className="text-blue-100 text-sm leading-relaxed max-w-xs">Controle ordens de serviço, estoque, financeiro e equipe com eficiência e simplicidade.</p>
+          <h2 className="text-white text-4xl font-black leading-tight mb-4">GestÃ£o completa<br/>da sua oficina<br/>em um sÃ³ lugar.</h2>
+          <p className="text-orange-100 text-sm leading-relaxed max-w-xs">Controle ordens de serviÃ§o, estoque, financeiro e equipe com eficiÃªncia e simplicidade.</p>
           <div className="flex gap-4 mt-8">
-            {[['10+', 'Módulos'], ['100%', 'Online'], ['0', 'Papel']].map(([v, l]) => (
+            {[['10+', 'MÃ³dulos'], ['100%', 'Online'], ['0', 'Papel']].map(([v, l]) => (
               <div key={l} className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 text-center border border-white/10">
                 <p className="text-white font-black text-xl">{v}</p>
-                <p className="text-blue-200 text-[10px] font-bold uppercase tracking-wider">{l}</p>
+                <p className="text-orange-200 text-[10px] font-bold uppercase tracking-wider">{l}</p>
               </div>
             ))}
           </div>
         </div>
-        <p className="relative z-10 text-blue-200/60 text-xs">© 2025 AutoCenter Pro. Todos os direitos reservados.</p>
+        <p className="relative z-10 text-orange-200/60 text-xs">Â© 2025 AutoCenter Pro. Todos os direitos reservados.</p>
       </div>
 
-      {/* Painel direito — formulário */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-[#0F172A] lg:bg-slate-50">
+      {/* Painel direito â€” formulÃ¡rio */}
+      <div className="flex-1 flex items-center justify-center p-6 bg-[#1C1917] lg:bg-slate-50">
         <div className="w-full max-w-sm">
           <div className="lg:hidden flex items-center gap-3 mb-10 justify-center">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
               <Wrench size={20} className="text-white" />
             </div>
             <span className="text-white lg:text-slate-800 font-black text-lg">AutoCenter Pro</span>
@@ -771,7 +771,7 @@ const App: React.FC = () => {
               value={pwdInput}
               onChange={e => { setPwdInput(e.target.value); setPwdError(''); }}
               onKeyDown={e => e.key === 'Enter' && handleAdminLogin()}
-              className={`w-full px-4 py-3.5 pr-12 rounded-xl outline-none text-sm font-medium transition-all border-2 bg-slate-800/50 lg:bg-white text-white lg:text-slate-800 placeholder-slate-500 lg:placeholder-slate-400 ${pwdError ? 'border-red-500' : 'border-slate-700 lg:border-slate-200 focus:border-blue-500'}`}
+              className={`w-full px-4 py-3.5 pr-12 rounded-xl outline-none text-sm font-medium transition-all border-2 bg-slate-800/50 lg:bg-white text-white lg:text-slate-800 placeholder-slate-500 lg:placeholder-slate-400 ${pwdError ? 'border-red-500' : 'border-slate-700 lg:border-slate-200 focus:border-orange-500'}`}
               autoFocus
             />
             <button type="button" onClick={() => setPwdVisible(v => !v)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 lg:hover:text-slate-600 transition-colors">
@@ -779,8 +779,8 @@ const App: React.FC = () => {
             </button>
           </div>
           {pwdError && <p className="text-xs text-red-400 font-medium mb-3 flex items-center gap-1"><X size={12} />{pwdError}</p>}
-          <p className="text-[11px] text-slate-500 mb-5">Senha padrão: <span className="font-bold text-slate-400 lg:text-slate-600">admin123</span></p>
-          <button onClick={handleAdminLogin} className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-blue-900/30 active:scale-[.98]">
+          <p className="text-[11px] text-slate-500 mb-5">Senha padrÃ£o: <span className="font-bold text-slate-400 lg:text-slate-600">admin123</span></p>
+          <button onClick={handleAdminLogin} className="w-full py-3.5 bg-orange-600 hover:bg-orange-500 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-orange-900/30 active:scale-[.98]">
             Entrar no sistema
           </button>
         </div>
@@ -798,30 +798,30 @@ const App: React.FC = () => {
   const tableHeaders = getTableHeaders();
 
   return (
-    <div className="flex h-screen bg-[#F1F5F9] text-slate-900 overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#FFF7ED] text-slate-900 overflow-hidden font-sans">
 
-      {/* ── Overlay mobile ── */}
+      {/* â”€â”€ Overlay mobile â”€â”€ */}
       {isSidebarOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* ── Sidebar ── */}
+      {/* â”€â”€ Sidebar â”€â”€ */}
       <aside className={`
         fixed inset-y-0 left-0 z-50 w-64 flex flex-col
         transition-transform duration-300
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         md:relative md:translate-x-0 md:z-auto
-        bg-[#0F172A]
+        bg-[#1C1917]
       `}>
         {/* Logo */}
         <div className="px-5 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/50 flex-shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-900/50 flex-shrink-0">
               <Wrench size={18} className="text-white" />
             </div>
             <div>
               <p className="text-sm font-black text-white leading-none">AutoCenter Pro</p>
-              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Sistema de Gestão</p>
+              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Sistema de GestÃ£o</p>
             </div>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="md:hidden text-slate-500 hover:text-white p-1 transition-colors">
@@ -836,20 +836,20 @@ const App: React.FC = () => {
         <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
           <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest px-3 py-2">Menu Principal</p>
           <NavItem id="dashboard" icon={LayoutDashboard} label="Dashboard"         active={activeTab} onClick={handleTabChange} />
-          <NavItem id="services"  icon={Wrench}          label="Serviços"          active={activeTab} onClick={handleTabChange} />
-          <NavItem id="quotes"    icon={FileText}        label="Orçamentos"        active={activeTab} onClick={handleTabChange} />
+          <NavItem id="services"  icon={Wrench}          label="ServiÃ§os"          active={activeTab} onClick={handleTabChange} />
+          <NavItem id="quotes"    icon={FileText}        label="OrÃ§amentos"        active={activeTab} onClick={handleTabChange} />
           <NavItem id="clients"   icon={Users}           label="Clientes & Carros" active={activeTab} onClick={handleTabChange} />
           <NavItem id="staff"     icon={Briefcase}       label="Equipe"            active={activeTab} onClick={handleTabChange} />
-          <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest px-3 py-2 mt-3">Análises</p>
-          <NavItem id="reports"   icon={BarChart3}       label="Relatórios"        active={activeTab} onClick={handleTabChange} />
+          <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest px-3 py-2 mt-3">AnÃ¡lises</p>
+          <NavItem id="reports"   icon={BarChart3}       label="RelatÃ³rios"        active={activeTab} onClick={handleTabChange} />
         </nav>
 
         {/* Footer */}
         <div className="p-3 m-3 rounded-xl bg-white/5 border border-white/5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-blue-600/20 flex items-center justify-center">
-                <Lock size={11} className="text-blue-400" />
+              <div className="w-7 h-7 rounded-lg bg-orange-600/20 flex items-center justify-center">
+                <Lock size={11} className="text-orange-400" />
               </div>
               <span className="text-[11px] font-bold text-slate-300">Administrador</span>
             </div>
@@ -865,7 +865,7 @@ const App: React.FC = () => {
         </div>
       </aside>
 
-      {/* ── Main ── */}
+      {/* â”€â”€ Main â”€â”€ */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Topbar */}
         <header className="bg-white border-b border-slate-200 px-4 md:px-8 py-3.5 flex items-center justify-between flex-shrink-0 shadow-sm">
@@ -875,13 +875,13 @@ const App: React.FC = () => {
             </button>
             <div>
               <h1 className="text-base font-black text-slate-800 leading-none">{getTabLabel(activeTab)}</h1>
-              <p className="text-[10px] text-slate-400 font-medium mt-0.5 hidden md:block">AutoCenter Pro · Sistema de Gestão</p>
+              <p className="text-[10px] text-slate-400 font-medium mt-0.5 hidden md:block">AutoCenter Pro Â· Sistema de GestÃ£o</p>
             </div>
           </div>
           {!['dashboard', 'reports'].includes(activeTab) && (
             <button
               onClick={() => { setModalType(getModalType(activeTab)); setFormData({ paymentMethod: 'Dinheiro', staffName: '' }); setShowModal(true); }}
-              className="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 shadow-md shadow-blue-200 transition-all text-sm"
+              className="bg-orange-600 hover:bg-orange-500 active:scale-95 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 shadow-md shadow-orange-200 transition-all text-sm"
             >
               <Plus size={16} />
               <span className="hidden sm:inline">{getAddLabel(activeTab)}</span>
@@ -890,14 +890,14 @@ const App: React.FC = () => {
         </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6">
 
-          {/* ── Dashboard ── */}
+          {/* â”€â”€ Dashboard â”€â”€ */}
           {activeTab === 'dashboard' && (
             <div className="space-y-5">
               {/* Stat cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <StatBox title="Faturamento Hoje"     value={formatBRL(reportData.daily.total)} icon={DollarSign} gradient="from-emerald-500 to-teal-600" />
-                <StatBox title="Serviços Hoje"        value={String(reportData.daily.count)}    icon={Wrench}     gradient="from-blue-500 to-indigo-600" />
-                <StatBox title="Profissionais Ativos" value={String(staff.length)}              icon={UserCircle} gradient="from-violet-500 to-purple-600" />
+                <StatBox title="ServiÃ§os Hoje"        value={String(reportData.daily.count)}    icon={Wrench}     gradient="from-orange-500 to-red-600" />
+                <StatBox title="Profissionais Ativos" value={String(staff.length)}              icon={UserCircle} gradient="from-amber-500 to-rose-600" />
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -905,31 +905,31 @@ const App: React.FC = () => {
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                   <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
                     <h3 className="font-black text-slate-800">Equipe em Campo</h3>
-                    <span className="text-[10px] font-bold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full">{staff.length} ativos</span>
+                    <span className="text-[10px] font-bold bg-orange-50 text-orange-600 px-2.5 py-1 rounded-full">{staff.length} ativos</span>
                   </div>
                   <div className="divide-y divide-slate-50">
                     {staff.map(s => (
                       <div key={s.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50 transition-colors">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-sm">
+                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center flex-shrink-0 shadow-sm">
                             <UserCircle size={18} className="text-white" />
                           </div>
                           <div>
-                            <button onClick={() => setSelectedStaffName(s.name)} className="font-bold text-slate-800 text-sm hover:text-blue-600 transition-colors text-left">{s.name}</button>
-                            <p className="text-[10px] text-slate-400 font-medium">{s.specialty || 'Mecânico Geral'}</p>
+                            <button onClick={() => setSelectedStaffName(s.name)} className="font-bold text-slate-800 text-sm hover:text-orange-600 transition-colors text-left">{s.name}</button>
+                            <p className="text-[10px] text-slate-400 font-medium">{s.specialty || 'MecÃ¢nico Geral'}</p>
                           </div>
                         </div>
-                        <span className="text-[9px] font-black bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full border border-emerald-100">● Ativo</span>
+                        <span className="text-[9px] font-black bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full border border-emerald-100">â— Ativo</span>
                       </div>
                     ))}
                     {staff.length === 0 && <p className="text-center text-slate-400 py-8 text-sm">Nenhum profissional cadastrado.</p>}
                   </div>
                 </div>
 
-                {/* Últimas OS */}
+                {/* Ãšltimas OS */}
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                   <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                    <h3 className="font-black text-slate-800">Últimas Ordens</h3>
+                    <h3 className="font-black text-slate-800">Ãšltimas Ordens</h3>
                     <span className="text-[10px] font-bold bg-slate-100 text-slate-500 px-2.5 py-1 rounded-full">{services.length} total</span>
                   </div>
                   <div className="divide-y divide-slate-50">
@@ -940,7 +940,7 @@ const App: React.FC = () => {
                           <div className="min-w-0">
                             <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
                             <p className="text-[10px] text-slate-400 font-medium truncate">
-                              {s.clientName}{s.staffName ? ` · ${s.staffName}` : ''}
+                              {s.clientName}{s.staffName ? ` Â· ${s.staffName}` : ''}
                             </p>
                           </div>
                         </div>
@@ -950,14 +950,14 @@ const App: React.FC = () => {
                         </div>
                       </div>
                     ))}
-                    {services.length === 0 && <p className="text-center text-slate-400 py-8 text-sm">Nenhum serviço registado.</p>}
+                    {services.length === 0 && <p className="text-center text-slate-400 py-8 text-sm">Nenhum serviÃ§o registado.</p>}
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* ── Relatórios ── */}
+          {/* â”€â”€ RelatÃ³rios â”€â”€ */}
           {activeTab === 'reports' && (() => {
             const todayStr = new Date().toISOString().split('T')[0];
             const mesAtual = todayStr.substring(0, 7);
@@ -965,10 +965,10 @@ const App: React.FC = () => {
               ? services.filter(s => s.date?.substring(0, 7) === mesAtual)
               : services;
 
-            // Agrupar serviços por mecânico
+            // Agrupar serviÃ§os por mecÃ¢nico
             const porMecanico: Record<string, Service[]> = {};
             servicosFiltrados.forEach(s => {
-              const nome = s.staffName || 'Sem Mecânico';
+              const nome = s.staffName || 'Sem MecÃ¢nico';
               if (!porMecanico[nome]) porMecanico[nome] = [];
               porMecanico[nome].push(s);
             });
@@ -977,32 +977,32 @@ const App: React.FC = () => {
               <div className="space-y-6">
                 {/* Totais */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <StatBox title={reportPeriod === 'mes' ? 'Faturamento do Mês' : 'Faturamento Total'} value={formatBRL(servicosFiltrados.reduce((a, s) => a + (s.value ?? 0), 0))} icon={DollarSign} color="text-emerald-500" />
-                  <StatBox title={reportPeriod === 'mes' ? 'Serviços no Mês' : 'Total de Serviços'} value={String(servicosFiltrados.length)} icon={Wrench} color="text-blue-500" />
-                  <StatBox title="Mecânicos Ativos" value={String(Object.keys(porMecanico).length)} icon={UserCircle} color="text-purple-500" />
+                  <StatBox title={reportPeriod === 'mes' ? 'Faturamento do MÃªs' : 'Faturamento Total'} value={formatBRL(servicosFiltrados.reduce((a, s) => a + (s.value ?? 0), 0))} icon={DollarSign} color="text-emerald-500" />
+                  <StatBox title={reportPeriod === 'mes' ? 'ServiÃ§os no MÃªs' : 'Total de ServiÃ§os'} value={String(servicosFiltrados.length)} icon={Wrench} color="text-orange-500" />
+                  <StatBox title="MecÃ¢nicos Ativos" value={String(Object.keys(porMecanico).length)} icon={UserCircle} color="text-purple-500" />
                 </div>
 
-                {/* Filtro de período */}
+                {/* Filtro de perÃ­odo */}
                 <div className="flex items-center gap-2">
                   {(['mes', 'tudo'] as const).map(p => (
                     <button
                       key={p}
                       onClick={() => setReportPeriod(p)}
-                      className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${reportPeriod === p ? 'bg-blue-600 text-white shadow' : 'bg-white border border-slate-200 text-slate-500 hover:border-blue-300'}`}
+                      className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${reportPeriod === p ? 'bg-orange-600 text-white shadow' : 'bg-white border border-slate-200 text-slate-500 hover:border-orange-300'}`}
                     >
-                      {p === 'mes' ? '📅 Este Mês' : '📂 Todo o Período'}
+                      {p === 'mes' ? 'ðŸ“… Este MÃªs' : 'ðŸ“‚ Todo o PerÃ­odo'}
                     </button>
                   ))}
                 </div>
 
-                {/* Histórico por mecânico (acordeão) */}
+                {/* HistÃ³rico por mecÃ¢nico (acordeÃ£o) */}
                 <div className="space-y-3">
                   <h3 className="text-base font-black flex items-center gap-2 text-slate-800">
-                    <Briefcase size={18} className="text-blue-500" /> Histórico por Mecânico
+                    <Briefcase size={18} className="text-orange-500" /> HistÃ³rico por MecÃ¢nico
                   </h3>
                   {Object.keys(porMecanico).length === 0 && (
                     <div className="bg-white rounded-3xl border border-slate-200 p-10 text-center text-slate-400 text-sm">
-                      Nenhum serviço encontrado no período.
+                      Nenhum serviÃ§o encontrado no perÃ­odo.
                     </div>
                   )}
                   {Object.entries(porMecanico)
@@ -1012,38 +1012,38 @@ const App: React.FC = () => {
                       const isOpen = expandedStaff === nome;
                       return (
                         <div key={nome} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                          {/* Cabeçalho do mecânico */}
+                          {/* CabeÃ§alho do mecÃ¢nico */}
                           <button
                             onClick={() => setExpandedStaff(isOpen ? null : nome)}
                             className="w-full flex items-center justify-between p-4 md:p-5 hover:bg-slate-50 transition-colors text-left"
                           >
 
                             <div className="flex items-center gap-3">
-                              <div className="bg-blue-100 text-blue-600 p-2.5 rounded-xl flex-shrink-0">
+                              <div className="bg-orange-100 text-orange-600 p-2.5 rounded-xl flex-shrink-0">
                                 <UserCircle size={20} />
                               </div>
                               <div>
                                 <p className="font-black text-slate-800 text-sm">{nome}</p>
                                 <p className="text-[11px] text-slate-400 mt-0.5">
-                                  {svcs.length} serviço{svcs.length !== 1 ? 's' : ''} · {formatBRL(totalMec)}
+                                  {svcs.length} serviÃ§o{svcs.length !== 1 ? 's' : ''} Â· {formatBRL(totalMec)}
                                 </p>
                               </div>
                             </div>
                             <div className="flex items-center gap-3 flex-shrink-0">
                               <span className="hidden sm:block font-black text-emerald-600 text-sm">{formatBRL(totalMec)}</span>
-                              <span className={`text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+                              <span className={`text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>â–¼</span>
                             </div>
                           </button>
 
-                          {/* Lista de serviços do mecânico */}
+                          {/* Lista de serviÃ§os do mecÃ¢nico */}
                           {isOpen && (
                             <div className="border-t border-slate-100">
                               {/* Header desktop */}
                               <div className="hidden md:grid grid-cols-5 gap-3 px-5 py-2 bg-slate-50 text-[9px] font-black text-slate-400 uppercase tracking-widest">
-                                <span className="col-span-2">Serviço · Cliente</span>
+                                <span className="col-span-2">ServiÃ§o Â· Cliente</span>
                                 <span>Placa</span>
                                 <span>Data</span>
-                                <span className="text-right">Valor · Status</span>
+                                <span className="text-right">Valor Â· Status</span>
                               </div>
                               {svcs
                                 .slice()
@@ -1055,13 +1055,13 @@ const App: React.FC = () => {
                                       <div className="flex items-start justify-between gap-2">
                                         <div className="min-w-0 flex-1">
                                           <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
-                                          {s.clientName && <p className="text-xs text-slate-500 truncate">👤 {s.clientName}{s.plate ? ` · ${s.plate}` : ''}</p>}
+                                          {s.clientName && <p className="text-xs text-slate-500 truncate">ðŸ‘¤ {s.clientName}{s.plate ? ` Â· ${s.plate}` : ''}</p>}
                                         </div>
                                         <StatusBadge status={s.status} paymentMethod={s.paymentMethod} />
                                       </div>
                                       <div className="flex items-center justify-between mt-1.5">
-                                        <span className="text-[10px] text-slate-400 font-bold">📅 {s.date || '—'}</span>
-                                        <span className="font-black text-blue-600 text-sm">{formatBRL(s.value)}</span>
+                                        <span className="text-[10px] text-slate-400 font-bold">ðŸ“… {s.date || 'â€”'}</span>
+                                        <span className="font-black text-orange-600 text-sm">{formatBRL(s.value)}</span>
                                       </div>
                                     </div>
                                     {/* Desktop */}
@@ -1070,10 +1070,10 @@ const App: React.FC = () => {
                                         <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
                                         {s.clientName && <p className="text-xs text-slate-400 truncate">{s.clientName}</p>}
                                       </div>
-                                      <span className="text-xs font-bold text-slate-500">{s.plate || '—'}</span>
-                                      <span className="text-xs font-bold text-slate-500">{s.date || '—'}</span>
+                                      <span className="text-xs font-bold text-slate-500">{s.plate || 'â€”'}</span>
+                                      <span className="text-xs font-bold text-slate-500">{s.date || 'â€”'}</span>
                                       <div className="flex items-center justify-end gap-2">
-                                        <span className="font-black text-blue-600 text-sm">{formatBRL(s.value)}</span>
+                                        <span className="font-black text-orange-600 text-sm">{formatBRL(s.value)}</span>
                                         <StatusBadge status={s.status} paymentMethod={s.paymentMethod} />
                                       </div>
                                     </div>
@@ -1086,10 +1086,10 @@ const App: React.FC = () => {
                     })}
                 </div>
 
-                {/* ── Tabela detalhada por mecânico ── */}
+                {/* â”€â”€ Tabela detalhada por mecÃ¢nico â”€â”€ */}
                 <div className="space-y-3">
                   <h3 className="text-base font-black flex items-center gap-2 text-slate-800">
-                    <FileText size={18} className="text-emerald-500" /> Tabela Detalhada por Mecânico
+                    <FileText size={18} className="text-emerald-500" /> Tabela Detalhada por MecÃ¢nico
                   </h3>
 
                   {/* Filtros de data */}
@@ -1101,16 +1101,16 @@ const App: React.FC = () => {
                         type="date"
                         value={reportDateFrom}
                         onChange={e => setReportDateFrom(e.target.value)}
-                        className="p-2 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-blue-400"
+                        className="p-2 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-orange-400"
                       />
                     </div>
                     <div className="flex items-center gap-2">
-                      <label className="text-xs font-bold text-slate-500">Até</label>
+                      <label className="text-xs font-bold text-slate-500">AtÃ©</label>
                       <input
                         type="date"
                         value={reportDateTo}
                         onChange={e => setReportDateTo(e.target.value)}
-                        className="p-2 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-blue-400"
+                        className="p-2 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-orange-400"
                       />
                     </div>
                     {(reportDateFrom || reportDateTo) && (
@@ -1123,7 +1123,7 @@ const App: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Tabela agrupada por mecânico */}
+                  {/* Tabela agrupada por mecÃ¢nico */}
                   {(() => {
                     const filteredByDate = servicosFiltrados.filter(s => {
                       if (reportDateFrom && (s.date || '') < reportDateFrom) return false;
@@ -1132,13 +1132,13 @@ const App: React.FC = () => {
                     });
                     const grouped: Record<string, Service[]> = {};
                     filteredByDate.forEach(s => {
-                      const n = s.staffName || 'Sem Mecânico';
+                      const n = s.staffName || 'Sem MecÃ¢nico';
                       if (!grouped[n]) grouped[n] = [];
                       grouped[n].push(s);
                     });
                     if (filteredByDate.length === 0) return (
                       <div className="bg-white rounded-3xl border border-slate-200 p-10 text-center text-slate-400 text-sm">
-                        Nenhum serviço encontrado para o período selecionado.
+                        Nenhum serviÃ§o encontrado para o perÃ­odo selecionado.
                       </div>
                     );
                     return Object.entries(grouped)
@@ -1148,19 +1148,19 @@ const App: React.FC = () => {
                         const svcsSorted = [...svcs].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
                         return (
                           <div key={nome} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                            {/* Nome do mecânico */}
+                            {/* Nome do mecÃ¢nico */}
                             <div className="flex items-center justify-between px-5 py-3 bg-slate-800">
                               <div className="flex items-center gap-2">
-                                <UserCircle size={16} className="text-blue-300" />
+                                <UserCircle size={16} className="text-orange-300" />
                                 <span className="font-black text-white text-sm">{nome}</span>
-                                <span className="text-slate-400 text-xs">— {svcs.length} serviço{svcs.length !== 1 ? 's' : ''}</span>
+                                <span className="text-slate-400 text-xs">â€” {svcs.length} serviÃ§o{svcs.length !== 1 ? 's' : ''}</span>
                               </div>
                               <span className="font-black text-emerald-400 text-sm">{formatBRL(totalMec)}</span>
                             </div>
                             {/* Header da tabela */}
                             <div className="hidden md:grid grid-cols-12 gap-2 px-5 py-2 bg-slate-50 border-b border-slate-100 text-[9px] font-black text-slate-400 uppercase tracking-widest">
                               <span className="col-span-1">Data</span>
-                              <span className="col-span-4">Serviço / Descrição</span>
+                              <span className="col-span-4">ServiÃ§o / DescriÃ§Ã£o</span>
                               <span className="col-span-3">Cliente</span>
                               <span className="col-span-2">Placa</span>
                               <span className="col-span-1 text-right">Valor</span>
@@ -1168,26 +1168,26 @@ const App: React.FC = () => {
                             </div>
                             {/* Linhas */}
                             {svcsSorted.map(s => (
-                              <div key={s.id} className="px-4 md:px-5 py-3 border-b border-slate-50 last:border-0 hover:bg-blue-50/30 transition-colors">
+                              <div key={s.id} className="px-4 md:px-5 py-3 border-b border-slate-50 last:border-0 hover:bg-orange-50/30 transition-colors">
                                 {/* Mobile */}
                                 <div className="md:hidden space-y-1">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded-lg">📅 {s.date || '—'}</span>
+                                    <span className="text-[10px] font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded-lg">ðŸ“… {s.date || 'â€”'}</span>
                                     <StatusBadge status={s.status} paymentMethod={s.paymentMethod} />
                                   </div>
                                   <p className="font-bold text-slate-800 text-sm">{s.description}</p>
-                                  <p className="text-xs text-slate-500">👤 {s.clientName || '—'}{s.plate ? ` · ${s.plate}` : ''}</p>
-                                  <p className="font-black text-blue-600 text-sm">{formatBRL(s.value)}</p>
+                                  <p className="text-xs text-slate-500">ðŸ‘¤ {s.clientName || 'â€”'}{s.plate ? ` Â· ${s.plate}` : ''}</p>
+                                  <p className="font-black text-orange-600 text-sm">{formatBRL(s.value)}</p>
                                 </div>
                                 {/* Desktop */}
                                 <div className="hidden md:grid grid-cols-12 gap-2 items-center">
-                                  <span className="col-span-1 text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-lg text-center">{s.date || '—'}</span>
+                                  <span className="col-span-1 text-[10px] font-black text-orange-600 bg-orange-50 px-2 py-1 rounded-lg text-center">{s.date || 'â€”'}</span>
                                   <div className="col-span-4 min-w-0">
                                     <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
                                   </div>
-                                  <span className="col-span-3 text-xs text-slate-500 truncate">{s.clientName || '—'}</span>
-                                  <span className="col-span-2 text-xs font-bold text-slate-500">{s.plate || '—'}</span>
-                                  <span className="col-span-1 text-right font-black text-blue-600 text-sm">{formatBRL(s.value)}</span>
+                                  <span className="col-span-3 text-xs text-slate-500 truncate">{s.clientName || 'â€”'}</span>
+                                  <span className="col-span-2 text-xs font-bold text-slate-500">{s.plate || 'â€”'}</span>
+                                  <span className="col-span-1 text-right font-black text-orange-600 text-sm">{formatBRL(s.value)}</span>
                                   <div className="col-span-1 flex justify-end">
                                     <StatusBadge status={s.status} paymentMethod={s.paymentMethod} />
                                   </div>
@@ -1204,14 +1204,14 @@ const App: React.FC = () => {
             );
           })()}
 
-          {/* ── Orçamentos ── */}
+          {/* â”€â”€ OrÃ§amentos â”€â”€ */}
           {activeTab === 'quotes' && (
             <div className="space-y-4">
               {/* Mobile search */}
               <div className="md:hidden bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center p-3">
                 <Search className="text-slate-300 mr-2 flex-shrink-0" size={18} />
                 <input
-                  placeholder="Procurar orçamentos..."
+                  placeholder="Procurar orÃ§amentos..."
                   className="bg-transparent outline-none w-full font-medium text-sm"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
@@ -1224,11 +1224,11 @@ const App: React.FC = () => {
                     <div className="flex items-start justify-between mb-3">
                       <div className="min-w-0 flex-1">
                         <p className="font-black text-slate-800 truncate">{q.clientName}</p>
-                        <p className="text-xs text-slate-500 mt-0.5">{q.vehicleModel || '—'} {q.vehiclePlate ? `· ${q.vehiclePlate}` : ''}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{q.vehicleModel || 'â€”'} {q.vehiclePlate ? `Â· ${q.vehiclePlate}` : ''}</p>
                       </div>
                       <QuoteStatusBadge status={q.status} />
                     </div>
-                    <p className="text-lg font-black text-blue-600 mb-3">{formatBRL(q.total)}</p>
+                    <p className="text-lg font-black text-orange-600 mb-3">{formatBRL(q.total)}</p>
                     <div className="flex items-center gap-2">
                       <button onClick={() => printQuote(q)} className="flex-1 flex items-center justify-center gap-1.5 bg-slate-100 text-slate-700 text-xs font-bold py-2 rounded-xl hover:bg-slate-200 transition-colors">
                         <Printer size={13} /> PDF
@@ -1236,7 +1236,7 @@ const App: React.FC = () => {
                       <button onClick={() => shareWhatsApp(q)} className="flex-1 flex items-center justify-center gap-1.5 bg-green-50 text-green-700 text-xs font-bold py-2 rounded-xl hover:bg-green-100 transition-colors">
                         <WhatsAppIcon size={13} /> WhatsApp
                       </button>
-                      <button onClick={() => openEditQuote(q)} className="flex-1 flex items-center justify-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-bold py-2 rounded-xl hover:bg-blue-100 transition-colors">
+                      <button onClick={() => openEditQuote(q)} className="flex-1 flex items-center justify-center gap-1.5 bg-orange-50 text-orange-700 text-xs font-bold py-2 rounded-xl hover:bg-orange-100 transition-colors">
                         <Pencil size={13} /> Editar
                       </button>
                       {q.status === 'Pendente' && (
@@ -1255,31 +1255,31 @@ const App: React.FC = () => {
                     </div>
                   </div>
                 ))}
-                {quotes.length === 0 && <p className="text-center text-slate-400 py-10 text-sm">Nenhum orçamento ainda. Crie o primeiro!</p>}
+                {quotes.length === 0 && <p className="text-center text-slate-400 py-10 text-sm">Nenhum orÃ§amento ainda. Crie o primeiro!</p>}
               </div>
 
               {/* Desktop table */}
               <div className="hidden md:block bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="p-4 border-b flex items-center bg-slate-50/50">
                   <Search className="text-slate-300 mr-2 flex-shrink-0" size={18} />
-                  <input placeholder="Procurar orçamentos..." className="bg-transparent outline-none w-full font-medium text-sm" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+                  <input placeholder="Procurar orÃ§amentos..." className="bg-transparent outline-none w-full font-medium text-sm" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
                 </div>
                 <table className="w-full text-left">
                   <thead className="bg-slate-50 text-[10px] font-black uppercase text-slate-400">
                     <tr>
                       <th className="p-5">Cliente</th>
-                      <th className="p-5">Veículo / Placa</th>
+                      <th className="p-5">VeÃ­culo / Placa</th>
                       <th className="p-5">Total</th>
                       <th className="p-5">Status</th>
-                      <th className="p-5 text-right">Ações</th>
+                      <th className="p-5 text-right">AÃ§Ãµes</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y">
                     {quotes.filter(q => JSON.stringify(q).toLowerCase().includes(searchTerm.toLowerCase())).map(q => (
                       <tr key={q.id} className="hover:bg-slate-50 transition-colors">
                         <td className="p-5 font-bold text-slate-800 text-sm">{q.clientName}</td>
-                        <td className="p-5 text-sm text-slate-500">{q.vehicleModel || '—'}{q.vehiclePlate ? ` · ${q.vehiclePlate}` : ''}</td>
-                        <td className="p-5 font-black text-blue-600 text-sm">{formatBRL(q.total)}</td>
+                        <td className="p-5 text-sm text-slate-500">{q.vehicleModel || 'â€”'}{q.vehiclePlate ? ` Â· ${q.vehiclePlate}` : ''}</td>
+                        <td className="p-5 font-black text-orange-600 text-sm">{formatBRL(q.total)}</td>
                         <td className="p-5"><QuoteStatusBadge status={q.status} /></td>
                         <td className="p-5 text-right">
                           <div className="flex items-center justify-end gap-2">
@@ -1289,7 +1289,7 @@ const App: React.FC = () => {
                             <button onClick={() => shareWhatsApp(q)} title="Enviar via WhatsApp" className="flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-xl hover:bg-green-100 transition-colors">
                               <WhatsAppIcon size={14} /> WhatsApp
                             </button>
-                            <button onClick={() => openEditQuote(q)} title="Editar" className="flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-xl hover:bg-blue-100 transition-colors">
+                            <button onClick={() => openEditQuote(q)} title="Editar" className="flex items-center gap-1.5 bg-orange-50 text-orange-700 text-xs font-bold px-3 py-1.5 rounded-xl hover:bg-orange-100 transition-colors">
                               <Pencil size={14} /> Editar
                             </button>
                             {q.status === 'Pendente' && (
@@ -1308,7 +1308,7 @@ const App: React.FC = () => {
                       </tr>
                     ))}
                     {quotes.length === 0 && (
-                      <tr><td colSpan={5} className="p-10 text-center text-slate-400 text-sm">Nenhum orçamento registado.</td></tr>
+                      <tr><td colSpan={5} className="p-10 text-center text-slate-400 text-sm">Nenhum orÃ§amento registado.</td></tr>
                     )}
                   </tbody>
                 </table>
@@ -1316,19 +1316,19 @@ const App: React.FC = () => {
             </div>
           )}
 
-          {/* ── Tabela / Cards ── */}
+          {/* â”€â”€ Tabela / Cards â”€â”€ */}
           {(['services', 'staff', 'vehicles', 'customers', 'clients'] as TabName[]).includes(activeTab) && (
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               {/* Barra de pesquisa */}
               <div className="p-3 md:p-4 border-b flex items-center bg-slate-50/50">
                 <Search className="text-slate-300 mr-2 flex-shrink-0" size={18} />
                 <input
-                  placeholder={activeTab === 'services' ? 'Buscar por cliente, placa ou serviço...' : activeTab === 'clients' ? 'Buscar por nome, placa ou veículo...' : 'Procurar na base...'}
+                  placeholder={activeTab === 'services' ? 'Buscar por cliente, placa ou serviÃ§o...' : activeTab === 'clients' ? 'Buscar por nome, placa ou veÃ­culo...' : 'Procurar na base...'}
                   className="bg-transparent outline-none w-full font-medium text-sm"
                   onChange={e => setSearchTerm(e.target.value)}
                 />
               </div>
-              {/* Filtros rápidos de status (apenas serviços) */}
+              {/* Filtros rÃ¡pidos de status (apenas serviÃ§os) */}
               {activeTab === 'services' && (
                 <div className="flex items-center gap-2 px-4 py-2.5 border-b bg-slate-50/30 overflow-x-auto">
                   {(['Todos', 'Pendente', 'Entregue'] as const).map(f => (
@@ -1360,10 +1360,10 @@ const App: React.FC = () => {
                         <p className="font-bold text-slate-800 text-sm truncate">{cells[0]}</p>
                         {isSvc && svc
                           ? <div className="text-xs text-slate-500 mt-0.5 truncate flex items-center gap-1">
-                              {svc.plate && <span>{svc.plate} ·</span>}
+                              {svc.plate && <span>{svc.plate} Â·</span>}
                               {svc.staffName
-                                ? <button onClick={() => setSelectedStaffName(svc.staffName)} className="hover:text-blue-600 active:text-blue-700 transition-colors font-bold truncate text-left">{svc.staffName}</button>
-                                : <span>Sem mecânico</span>
+                                ? <button onClick={() => setSelectedStaffName(svc.staffName)} className="hover:text-orange-600 active:text-orange-700 transition-colors font-bold truncate text-left">{svc.staffName}</button>
+                                : <span>Sem mecÃ¢nico</span>
                               }
                             </div>
                           : <p className="text-xs text-slate-500 mt-0.5 truncate">{cells[1]}</p>
@@ -1397,7 +1397,7 @@ const App: React.FC = () => {
                   <thead className="bg-slate-50 text-[10px] font-black uppercase text-slate-400">
                     <tr>
                       {tableHeaders.map((h, i) => <th key={i} className="p-6">{h}</th>)}
-                      <th className="p-6 text-right">Ação</th>
+                      <th className="p-6 text-right">AÃ§Ã£o</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y">
@@ -1413,10 +1413,10 @@ const App: React.FC = () => {
                                 ? <StatusBadge status={svc.status} paymentMethod={svc.paymentMethod} />
                                 : isSvc && i === 1 && svc
                                   ? <span className="flex items-center gap-1">
-                                      {svc.plate && <span>{svc.plate} ·</span>}
+                                      {svc.plate && <span>{svc.plate} Â·</span>}
                                       {svc.staffName
-                                        ? <button onClick={() => setSelectedStaffName(svc.staffName)} className="hover:text-blue-600 active:text-blue-700 transition-colors font-bold text-left">{svc.staffName}</button>
-                                        : <span>Sem mecânico</span>
+                                        ? <button onClick={() => setSelectedStaffName(svc.staffName)} className="hover:text-orange-600 active:text-orange-700 transition-colors font-bold text-left">{svc.staffName}</button>
+                                        : <span>Sem mecÃ¢nico</span>
                                       }
                                     </span>
                                   : cell}
@@ -1448,11 +1448,11 @@ const App: React.FC = () => {
           )}
         </main>
 
-        {/* ── Bottom Nav (mobile) ── */}
+        {/* â”€â”€ Bottom Nav (mobile) â”€â”€ */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex z-30 shadow-lg">
           <BottomNavItem id="dashboard" icon={LayoutDashboard} label="Home"       active={activeTab} onClick={handleTabChange} />
-          <BottomNavItem id="services"  icon={Wrench}          label="Serviços"   active={activeTab} onClick={handleTabChange} />
-          <BottomNavItem id="quotes"    icon={FileText}        label="Orçamentos" active={activeTab} onClick={handleTabChange} />
+          <BottomNavItem id="services"  icon={Wrench}          label="ServiÃ§os"   active={activeTab} onClick={handleTabChange} />
+          <BottomNavItem id="quotes"    icon={FileText}        label="OrÃ§amentos" active={activeTab} onClick={handleTabChange} />
           <BottomNavItem id="clients"   icon={Users}           label="Clientes"   active={activeTab} onClick={handleTabChange} />
           <button
             onClick={() => setSidebarOpen(true)}
@@ -1464,9 +1464,9 @@ const App: React.FC = () => {
         </nav>
       </div>
 
-      {/* ══════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           MODAL ALTERAR SENHA
-      ══════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {showChangePwd && (
         <div className="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-4 z-[60]">
           <div className="bg-white rounded-t-3xl md:rounded-[32px] p-6 md:p-10 w-full md:max-w-sm shadow-2xl">
@@ -1484,10 +1484,10 @@ const App: React.FC = () => {
               <div className="relative">
                 <input
                   type={newPwdVisible ? 'text' : 'password'}
-                  placeholder="Nova senha (mín. 4 caracteres)"
+                  placeholder="Nova senha (mÃ­n. 4 caracteres)"
                   value={newPwd}
                   onChange={e => { setNewPwd(e.target.value); setPwdError(''); }}
-                  className="w-full p-4 pr-12 bg-slate-50 rounded-2xl outline-none font-bold text-sm focus:ring-2 focus:ring-blue-400"
+                  className="w-full p-4 pr-12 bg-slate-50 rounded-2xl outline-none font-bold text-sm focus:ring-2 focus:ring-orange-400"
                 />
                 <button type="button" onClick={() => setNewPwdVisible(v => !v)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                   {newPwdVisible ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -1499,7 +1499,7 @@ const App: React.FC = () => {
                 value={confirmPwd}
                 onChange={e => { setConfirmPwd(e.target.value); setPwdError(''); }}
                 onKeyDown={e => e.key === 'Enter' && handleChangePassword()}
-                className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm focus:ring-2 focus:ring-blue-400"
+                className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm focus:ring-2 focus:ring-orange-400"
               />
             </div>
 
@@ -1521,7 +1521,7 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* ── Modal de registo (OS / Veículo / etc) ── */}
+      {/* â”€â”€ Modal de registo (OS / VeÃ­culo / etc) â”€â”€ */}
       {showModal && (
         <div
           className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-4 z-50"
@@ -1530,18 +1530,18 @@ const App: React.FC = () => {
           <div className="bg-white rounded-t-3xl md:rounded-[32px] p-6 md:p-10 w-full md:max-w-lg shadow-2xl max-h-[92vh] overflow-y-auto">
             <div className="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-6 md:hidden" />
             <h2 className="text-xl md:text-2xl font-black mb-6">
-              {modalType === 'staff' ? 'Novo Profissional' : modalType === 'vehicle' ? 'Novo Veículo' : modalType === 'customer' ? 'Novo Cliente' : modalType === 'client' ? 'Novo Cadastro' : modalType === 'quote' ? (editingQuoteId ? 'Editar Orçamento' : 'Novo Orçamento') : 'Novo Serviço'}
+              {modalType === 'staff' ? 'Novo Profissional' : modalType === 'vehicle' ? 'Novo VeÃ­culo' : modalType === 'customer' ? 'Novo Cliente' : modalType === 'client' ? 'Novo Cadastro' : modalType === 'quote' ? (editingQuoteId ? 'Editar OrÃ§amento' : 'Novo OrÃ§amento') : 'Novo ServiÃ§o'}
             </h2>
             <div className="space-y-4">
               {modalType === 'staff' && (
                 <>
-                  <input placeholder="Nome do Mecânico" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, name: e.target.value}))} />
-                  <input placeholder="Especialidade (Ex: Suspensão, Motor)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, specialty: e.target.value}))} />
+                  <input placeholder="Nome do MecÃ¢nico" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, name: e.target.value}))} />
+                  <input placeholder="Especialidade (Ex: SuspensÃ£o, Motor)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, specialty: e.target.value}))} />
                 </>
               )}
               {modalType === 'vehicle' && (
                 <>
-                  <input placeholder="Modelo do Veículo (Ex: Civic 2022)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, model: e.target.value}))} />
+                  <input placeholder="Modelo do VeÃ­culo (Ex: Civic 2022)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, model: e.target.value}))} />
                   <input placeholder="Placa (Ex: ABC-1234)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, plate: e.target.value}))} />
                 </>
               )}
@@ -1566,7 +1566,7 @@ const App: React.FC = () => {
                       onChange={e => setFormData(f => ({...f, phone: e.target.value}))}
                     />
                   </div>
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1 pt-1">Dados do Veículo</p>
+                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1 pt-1">Dados do VeÃ­culo</p>
                   <div className="grid grid-cols-2 gap-3">
                     <input
                       placeholder="Modelo (Ex: Civic 2022)"
@@ -1598,7 +1598,7 @@ const App: React.FC = () => {
                       value={formData.clientName ?? ''}
                       onChange={val => setFormData(f => ({ ...f, clientName: val }))}
                       suggestions={clientRecords.map(cr => ({
-                        display: cr.phone ? `${cr.name}  ·  ${cr.phone}` : cr.name,
+                        display: cr.phone ? `${cr.name}  Â·  ${cr.phone}` : cr.name,
                         value: cr.name,
                       }))}
                     />
@@ -1610,47 +1610,47 @@ const App: React.FC = () => {
                       suggestions={clientRecords
                         .filter(cr => cr.vehiclePlate)
                         .map(cr => ({
-                          display: cr.vehicleModel ? `${cr.vehiclePlate}  ·  ${cr.vehicleModel}` : cr.vehiclePlate!,
+                          display: cr.vehicleModel ? `${cr.vehiclePlate}  Â·  ${cr.vehicleModel}` : cr.vehiclePlate!,
                           value: cr.vehiclePlate!,
                         }))}
                     />
                   </div>
-                  <input placeholder="Descrição do Serviço" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, description: e.target.value}))} />
+                  <input placeholder="DescriÃ§Ã£o do ServiÃ§o" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, description: e.target.value}))} />
                   <input type="number" placeholder="Valor estimado (BRL)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm" onChange={e => setFormData(f => ({...f, value: e.target.value}))} />
                   <div>
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Profissional Responsável</p>
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Profissional ResponsÃ¡vel</p>
                     <select className="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-slate-700 text-sm" onChange={e => setFormData(f => ({...f, staffName: e.target.value}))}>
-                      <option value="">Selecione o mecânico...</option>
+                      <option value="">Selecione o mecÃ¢nico...</option>
                       {staff.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
                     </select>
                   </div>
-                  {/* Info: pagamento é definido na entrega */}
+                  {/* Info: pagamento Ã© definido na entrega */}
                   <div className="flex items-center gap-2 bg-amber-50 border border-amber-100 rounded-2xl p-3">
                     <Clock size={14} className="text-amber-500 flex-shrink-0" />
-                    <p className="text-[11px] text-amber-700 font-bold">A forma de pagamento será definida na entrega do serviço.</p>
+                    <p className="text-[11px] text-amber-700 font-bold">A forma de pagamento serÃ¡ definida na entrega do serviÃ§o.</p>
                   </div>
                 </>
               )}
               {modalType === 'quote' && (
                 <>
-                  {/* Cliente + Veículo */}
+                  {/* Cliente + VeÃ­culo */}
                   <AutocompleteInput
                     placeholder="Nome do Cliente *"
                     value={quoteClient}
                     onChange={setQuoteClient}
                     suggestions={clientRecords.map(cr => ({
-                      display: cr.phone ? `${cr.name}  ·  ${cr.phone}` : cr.name,
+                      display: cr.phone ? `${cr.name}  Â·  ${cr.phone}` : cr.name,
                       value: cr.name,
                     }))}
                   />
-                  <input placeholder="Endereço" value={quoteAddress} onChange={e => setQuoteAddress(e.target.value)} className="w-full p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
+                  <input placeholder="EndereÃ§o" value={quoteAddress} onChange={e => setQuoteAddress(e.target.value)} className="w-full p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
                   <div className="grid grid-cols-2 gap-3">
                     <input placeholder="Telefone" value={quotePhone} onChange={e => setQuotePhone(e.target.value)} className="p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
                     <input placeholder="E-mail" value={quoteEmail} onChange={e => setQuoteEmail(e.target.value)} className="p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <AutocompleteInput
-                      placeholder="Modelo do Veículo"
+                      placeholder="Modelo do VeÃ­culo"
                       value={quoteVehicle}
                       onChange={val => {
                         setQuoteVehicle(val);
@@ -1658,7 +1658,7 @@ const App: React.FC = () => {
                         if (found?.vehiclePlate) setQuotePlate(found.vehiclePlate);
                       }}
                       suggestions={clientRecords.filter(cr => cr.vehicleModel).map(cr => ({
-                        display: cr.vehiclePlate ? `${cr.vehicleModel}  ·  ${cr.vehiclePlate}` : cr.vehicleModel!,
+                        display: cr.vehiclePlate ? `${cr.vehicleModel}  Â·  ${cr.vehiclePlate}` : cr.vehicleModel!,
                         value: cr.vehicleModel!,
                       }))}
                     />
@@ -1674,7 +1674,7 @@ const App: React.FC = () => {
                       suggestions={clientRecords
                         .filter(cr => cr.vehiclePlate)
                         .map(cr => ({
-                          display: cr.vehicleModel ? `${cr.vehiclePlate}  ·  ${cr.vehicleModel}` : cr.vehiclePlate!,
+                          display: cr.vehicleModel ? `${cr.vehiclePlate}  Â·  ${cr.vehicleModel}` : cr.vehiclePlate!,
                           value: cr.vehiclePlate!,
                         }))}
                     />
@@ -1684,13 +1684,13 @@ const App: React.FC = () => {
                     <input placeholder="Ano/Modelo" value={quoteYearModel} onChange={e => setQuoteYearModel(e.target.value)} className="p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
                   </div>
 
-                  {/* Itens do orçamento */}
+                  {/* Itens do orÃ§amento */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Serviços / Itens *</p>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">ServiÃ§os / Itens *</p>
                       <button
                         onClick={() => setQuoteItems(prev => [...prev, { description: '', qty: 1, unitValue: 0 }])}
-                        className="flex items-center gap-1 text-blue-600 text-xs font-bold hover:text-blue-700"
+                        className="flex items-center gap-1 text-orange-600 text-xs font-bold hover:text-orange-700"
                       >
                         <PlusCircle size={14} /> Adicionar item
                       </button>
@@ -1699,7 +1699,7 @@ const App: React.FC = () => {
                       {quoteItems.map((item, idx) => (
                         <div key={idx} className="flex gap-2 items-center">
                           <input
-                            placeholder="Descrição do serviço"
+                            placeholder="DescriÃ§Ã£o do serviÃ§o"
                             value={item.description}
                             onChange={e => setQuoteItems(prev => prev.map((it, i) => i === idx ? { ...it, description: e.target.value } : it))}
                             className="flex-1 p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm min-w-0"
@@ -1741,26 +1741,26 @@ const App: React.FC = () => {
                   />
 
                   {/* Total */}
-                  <div className="flex justify-between items-center bg-blue-50 rounded-2xl p-4 border border-blue-100">
-                    <span className="text-sm font-black text-slate-600">Total do Orçamento</span>
-                    <span className="text-lg font-black text-blue-600">
+                  <div className="flex justify-between items-center bg-orange-50 rounded-2xl p-4 border border-orange-100">
+                    <span className="text-sm font-black text-slate-600">Total do OrÃ§amento</span>
+                    <span className="text-lg font-black text-orange-600">
                       {formatBRL(Math.max(0, quoteItems.reduce((acc, i) => acc + i.qty * i.unitValue, 0) - (parseFloat(quoteDiscount) || 0)))}
                     </span>
                   </div>
 
-                  {/* Observações */}
+                  {/* ObservaÃ§Ãµes */}
                   <textarea
-                    placeholder="Observações"
+                    placeholder="ObservaÃ§Ãµes"
                     value={quoteObservations}
                     onChange={e => setQuoteObservations(e.target.value)}
                     rows={2}
                     className="w-full p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm resize-none"
                   />
 
-                  {/* Condições de pagamento + validade */}
+                  {/* CondiÃ§Ãµes de pagamento + validade */}
                   <div className="grid grid-cols-2 gap-3">
-                    <input placeholder="Condições de Pagamento" value={quotePayment} onChange={e => setQuotePayment(e.target.value)} className="p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
-                    <input placeholder="Válido por (dias)" value={quoteValidDays} onChange={e => setQuoteValidDays(e.target.value)} className="p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
+                    <input placeholder="CondiÃ§Ãµes de Pagamento" value={quotePayment} onChange={e => setQuotePayment(e.target.value)} className="p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
+                    <input placeholder="VÃ¡lido por (dias)" value={quoteValidDays} onChange={e => setQuoteValidDays(e.target.value)} className="p-3 bg-slate-50 rounded-xl outline-none font-bold text-sm" />
                   </div>
                 </>
               )}
@@ -1768,7 +1768,7 @@ const App: React.FC = () => {
                 <button onClick={() => { setShowModal(false); setEditingQuoteId(null); }} className="flex-1 p-4 font-bold text-slate-400 hover:text-slate-600 transition-colors text-sm">Cancelar</button>
                 <button
                   onClick={modalType === 'quote' ? handleSaveQuote : handleSave}
-                  className="flex-1 p-4 bg-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all text-sm"
+                  className="flex-1 p-4 bg-orange-600 text-white rounded-2xl font-bold shadow-lg shadow-orange-200 hover:bg-orange-700 transition-all text-sm"
                 >
                   Confirmar
                 </button>
@@ -1778,9 +1778,9 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════
-          MODAL HISTÓRICO DO MECÂNICO
-      ══════════════════════════════════════════ */}
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          MODAL HISTÃ“RICO DO MECÃ‚NICO
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {selectedStaffName && (
         <div
           className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-4 z-[60]"
@@ -1791,12 +1791,12 @@ const App: React.FC = () => {
 
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <div className="bg-blue-100 text-blue-600 p-2.5 rounded-xl">
+                <div className="bg-orange-100 text-orange-600 p-2.5 rounded-xl">
                   <UserCircle size={22} />
                 </div>
                 <div>
                   <h2 className="text-xl font-black text-slate-800">{selectedStaffName}</h2>
-                  <p className="text-xs text-slate-400 font-bold">Histórico de Serviços</p>
+                  <p className="text-xs text-slate-400 font-bold">HistÃ³rico de ServiÃ§os</p>
                 </div>
               </div>
               <button onClick={() => setSelectedStaffName(null)} className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
@@ -1812,9 +1812,9 @@ const App: React.FC = () => {
               return (
                 <>
                   <div className="grid grid-cols-2 gap-3 mb-5">
-                    <div className="bg-blue-50 rounded-2xl p-4 text-center">
-                      <p className="text-2xl font-black text-blue-600">{staffSvcs.length}</p>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Serviços</p>
+                    <div className="bg-orange-50 rounded-2xl p-4 text-center">
+                      <p className="text-2xl font-black text-orange-600">{staffSvcs.length}</p>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">ServiÃ§os</p>
                     </div>
                     <div className="bg-emerald-50 rounded-2xl p-4 text-center">
                       <p className="text-lg font-black text-emerald-600">{formatBRL(totalVal)}</p>
@@ -1822,7 +1822,7 @@ const App: React.FC = () => {
                     </div>
                   </div>
                   {staffSvcs.length === 0 ? (
-                    <p className="text-center text-slate-400 py-8 text-sm">Nenhum serviço registrado para este mecânico.</p>
+                    <p className="text-center text-slate-400 py-8 text-sm">Nenhum serviÃ§o registrado para este mecÃ¢nico.</p>
                   ) : (
                     <div className="space-y-2">
                       {staffSvcs.map(s => (
@@ -1830,12 +1830,12 @@ const App: React.FC = () => {
                           <div className="min-w-0 flex-1">
                             <p className="font-bold text-slate-800 text-sm truncate">{s.description}</p>
                             {s.clientName && (
-                              <p className="text-xs text-slate-500 mt-0.5 truncate">👤 {s.clientName}{s.plate ? ` · ${s.plate}` : ''}</p>
+                              <p className="text-xs text-slate-500 mt-0.5 truncate">ðŸ‘¤ {s.clientName}{s.plate ? ` Â· ${s.plate}` : ''}</p>
                             )}
-                            <p className="text-[10px] text-slate-400 font-bold mt-1">📅 {s.date || '—'}</p>
+                            <p className="text-[10px] text-slate-400 font-bold mt-1">ðŸ“… {s.date || 'â€”'}</p>
                           </div>
                           <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
-                            <span className="font-black text-blue-600 text-sm">{formatBRL(s.value)}</span>
+                            <span className="font-black text-orange-600 text-sm">{formatBRL(s.value)}</span>
                             <StatusBadge status={s.status} paymentMethod={s.paymentMethod} />
                           </div>
                         </div>
@@ -1849,9 +1849,9 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════
-          MODAL ENTREGA DO SERVIÇO
-      ══════════════════════════════════════════ */}
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          MODAL ENTREGA DO SERVIÃ‡O
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {showDeliveryModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-4 z-[60]">
           <div className="bg-white rounded-t-3xl md:rounded-[32px] p-6 md:p-10 w-full md:max-w-sm shadow-2xl">
@@ -1861,14 +1861,14 @@ const App: React.FC = () => {
               <div className="bg-emerald-500 p-4 rounded-2xl mb-4 shadow-lg shadow-emerald-200">
                 <CheckCircle size={28} className="text-white" />
               </div>
-              <h2 className="text-xl font-black text-slate-800">Entregar Serviço</h2>
+              <h2 className="text-xl font-black text-slate-800">Entregar ServiÃ§o</h2>
               <p className="text-sm text-slate-400 mt-1 text-center">Selecione a forma de pagamento para finalizar</p>
             </div>
 
             <div className="mb-6">
               <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Forma de Pagamento</p>
               <div className="grid grid-cols-3 gap-2">
-                {['Dinheiro', 'Pix', 'Cartão'].map(method => (
+                {['Dinheiro', 'Pix', 'CartÃ£o'].map(method => (
                   <button
                     key={method}
                     onClick={() => setDeliveryPayment(method)}
@@ -1911,7 +1911,7 @@ const NavItem: React.FC<NavItemProps> = ({ id, icon: Icon, label, active, onClic
     onClick={() => onClick(id)}
     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left group ${
       active === id
-        ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/30'
+        ? 'bg-orange-600 text-white shadow-lg shadow-orange-900/30'
         : 'text-slate-500 hover:text-white hover:bg-white/5'
     }`}
   >
@@ -1926,7 +1926,7 @@ const BottomNavItem: React.FC<NavItemProps> = ({ id, icon: Icon, label, active, 
   <button
     onClick={() => onClick(id)}
     className={`flex-1 flex flex-col items-center justify-center py-3 transition-colors ${
-      active === id ? 'text-blue-400' : 'text-slate-600 hover:text-slate-400'
+      active === id ? 'text-orange-400' : 'text-slate-600 hover:text-slate-400'
     }`}
   >
     <Icon size={20} />
@@ -1957,7 +1957,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status, paymentMethod }) => {
     return (
       <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-[10px] font-black px-2.5 py-1 rounded-full">
         <CheckCircle size={10} />
-        Entregue{paymentMethod ? ` · ${paymentMethod}` : ''}
+        Entregue{paymentMethod ? ` Â· ${paymentMethod}` : ''}
       </span>
     );
   }
@@ -2015,7 +2015,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
         onChange={e => onChange(uppercase ? e.target.value.toUpperCase() : e.target.value)}
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 150)}
-        className={`w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm focus:ring-2 focus:ring-blue-300 ${className}`}
+        className={`w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-sm focus:ring-2 focus:ring-orange-300 ${className}`}
       />
       {open && filtered.length > 0 && (
         <div className="absolute z-[70] top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden">
@@ -2024,7 +2024,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
               key={i}
               type="button"
               onMouseDown={() => { onChange(s.value); setOpen(false); }}
-              className="w-full text-left px-4 py-2.5 text-sm font-bold hover:bg-blue-50 hover:text-blue-700 transition-colors border-b border-slate-50 last:border-0 truncate"
+              className="w-full text-left px-4 py-2.5 text-sm font-bold hover:bg-orange-50 hover:text-orange-700 transition-colors border-b border-slate-50 last:border-0 truncate"
             >
               {s.display}
             </button>
@@ -2035,7 +2035,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
   );
 };
 
-// WhatsApp SVG icon (lucide não possui)
+// WhatsApp SVG icon (lucide nÃ£o possui)
 const WhatsAppIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -2044,3 +2044,5 @@ const WhatsAppIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
 
 
 export default App;
+
+
