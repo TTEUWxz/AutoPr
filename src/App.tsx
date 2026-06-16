@@ -493,8 +493,8 @@ const App: React.FC = () => {
         /* HEADER */
         .header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #000;padding-bottom:10px;margin-bottom:12px}
         .logo-wrap{display:flex;flex-direction:column;gap:2px}
-        .logo-brand{font-size:36px;font-weight:900;color:#cc0000;letter-spacing:1px;line-height:1}
-        .logo-sub{font-size:13px;font-weight:800;letter-spacing:6px;color:#1a1a2e;border-top:2px solid #cc0000;border-bottom:2px solid #cc0000;padding:2px 0;margin-top:2px}
+        .logo-brand{font-size:28px;font-weight:900;color:#1a1a2e;letter-spacing:1px;line-height:1}
+        .logo-sub{font-size:11px;font-weight:800;letter-spacing:4px;color:#2563eb;border-top:2px solid #2563eb;border-bottom:2px solid #2563eb;padding:2px 0;margin-top:2px}
         .logo-car{font-size:9px;color:#555;margin-top:2px}
         .header-right{text-align:right}
         .nota-title{font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:1px}
@@ -549,8 +549,8 @@ const App: React.FC = () => {
       <!-- HEADER -->
       <div class="header">
         <div class="logo-wrap">
-          <div class="logo-brand">GILMAR</div>
-          <div class="logo-sub">— AUTO CENTER —</div>
+          <div class="logo-brand">AutoCenter Pro</div>
+          <div class="logo-sub">— SISTEMA DE GESTÃO —</div>
         </div>
         <div class="header-right">
           <div class="nota-title">Nota de Orçamento</div>
@@ -593,7 +593,7 @@ const App: React.FC = () => {
 
       <!-- TABELA DE ITENS -->
       <div class="table-wrap">
-        <div class="watermark">POR<br>GILMAR<br>AUTO CENTER</div>
+        <div class="watermark">AUTO<br>CENTER<br>PRO</div>
         <table class="items-table">
           <thead>
             <tr>
@@ -648,10 +648,9 @@ const App: React.FC = () => {
       <!-- BARRA INFERIOR -->
       <div class="bottom-bar">
         <div style="display:flex;gap:28px">
-          <div class="bottom-item"><span class="bottom-icon">🏢</span><span><b>CNPJ</b> 21.768.154/0001-06</span></div>
-          <div class="bottom-item"><span class="bottom-icon">✉️</span><span><b>E-mail:</b> Gilmaromegar@gmail.com</span></div>
+          <div class="bottom-item"><span class="bottom-icon">🔧</span><span><b>AutoCenter Pro</b> — Sistema de Gestão</span></div>
         </div>
-        <div class="bottom-item"><span class="bottom-icon">📍</span><div><b>Endereço:</b><br>Estrada do Teixeira , lote 01, quadra 13 - vista alegre</div></div>
+        <div class="bottom-item"><span class="bottom-icon">📋</span><div>Documento gerado automaticamente pelo sistema</div></div>
       </div>
 
       <script>window.onload=()=>{window.print()}<\/script></body></html>`;
@@ -668,7 +667,7 @@ const App: React.FC = () => {
       .join('\n');
     const veiculo = [quote.vehicleModel, quote.vehiclePlate].filter(Boolean).join(' · ');
     const msg = [
-      `🔧 *Orçamento Gilmar Auto Center* ${num}`,
+      `🔧 *Orçamento AutoCenter Pro* ${num}`,
       `📅 Data: ${data}`,
       ``,
       `👤 Cliente: *${quote.clientName}*`,
@@ -679,7 +678,7 @@ const App: React.FC = () => {
       ``,
       `💰 *Total: ${formatBRL(quote.total)}*`,
       ``,
-      `📞 (21) 96421-6563 / 97535-6318`,
+      `📞 Entre em contato conosco para mais informações.`,
     ].filter(l => l !== null && l !== undefined).join('\n');
 
     const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
@@ -727,7 +726,11 @@ const App: React.FC = () => {
     <div className="h-screen flex items-center justify-center bg-slate-900 p-4">
       <div className="bg-white rounded-3xl p-8 md:p-10 w-full max-w-sm shadow-2xl">
         <div className="flex flex-col items-center mb-8">
-          <GilmarLogo className="h-28 w-auto" />
+          <div className="flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4 shadow-lg shadow-blue-200">
+            <Wrench size={32} className="text-white" />
+          </div>
+          <h1 className="text-2xl font-black text-slate-800 tracking-tight">AutoCenter Pro</h1>
+          <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-widest">Sistema de Gestão</p>
         </div>
         <div className="relative mb-4">
           <input
@@ -780,7 +783,15 @@ const App: React.FC = () => {
       `}>
         {/* Logo */}
         <div className="px-5 py-4 flex items-center justify-between border-b border-white/5">
-          <GilmarLogo className="h-12 w-auto" />
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-9 h-9 bg-blue-600 rounded-xl flex-shrink-0">
+              <Wrench size={18} className="text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-black text-white leading-tight">AutoCenter Pro</p>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Sistema de Gestão</p>
+            </div>
+          </div>
           <button onClick={() => setSidebarOpen(false)} className="md:hidden text-slate-400 hover:text-white p-1">
             <X size={20} />
           </button>
@@ -833,7 +844,7 @@ const App: React.FC = () => {
                 <Menu size={20} />
               </button>
               <div>
-                <h2 className="text-blue-600 font-bold text-[9px] uppercase tracking-widest mb-0.5">Gilmar Auto Center</h2>
+                <h2 className="text-blue-600 font-bold text-[9px] uppercase tracking-widest mb-0.5">AutoCenter Pro</h2>
                 <h1 className="text-xl md:text-3xl font-black text-slate-800 tracking-tight">{getTabLabel(activeTab)}</h1>
               </div>
             </div>
@@ -1975,23 +1986,5 @@ const WhatsAppIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
   </svg>
 );
 
-interface GilmarLogoProps { className?: string; }
-const GilmarLogo: React.FC<GilmarLogoProps> = ({ className = '' }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 290" fill="none" className={className}>
-    <g fill="#4DBDE8">
-      <path d="M245 118 C220 112 192 108 165 112 C148 115 132 122 118 128 C135 122 155 118 178 117 C202 116 228 120 245 118Z" opacity="0.65"/>
-      <path d="M248 107 C222 100 193 96 164 100 C144 104 126 113 110 120 C128 112 150 107 174 106 C200 105 228 110 248 107Z" opacity="0.75"/>
-      <path d="M252 96 C226 88 196 84 165 88 C142 92 122 102 105 111 C124 102 148 96 173 95 C200 94 230 99 252 96Z"/>
-      <path d="M252 96 C265 85 282 78 300 76 C318 74 335 80 345 92 C352 100 352 112 344 120 C336 128 322 130 310 126 C295 121 280 110 268 102 C262 98 257 96 252 96Z"/>
-      <path d="M344 92 C350 86 360 82 370 83 C378 84 383 90 380 97 C377 103 368 106 360 104 C352 102 346 97 344 92Z"/>
-      <path d="M378 85 L396 78 L382 95 Z"/>
-      <path d="M290 82 C298 72 312 68 324 72 C312 75 300 80 292 88Z" opacity="0.55"/>
-      <path d="M300 126 L292 148 L286 148" stroke="#4DBDE8" strokeWidth="4" strokeLinecap="round"/>
-      <path d="M318 128 L312 150 L320 150" stroke="#4DBDE8" strokeWidth="4" strokeLinecap="round"/>
-    </g>
-    <text x="230" y="210" textAnchor="middle" fill="#1B3155" fontFamily="'Arial Black','Arial Bold',Impact,sans-serif" fontSize="92" fontWeight="900" letterSpacing="4">GILMAR</text>
-    <text x="230" y="262" textAnchor="middle" fill="#1B3155" fontFamily="'Arial Black','Arial Bold',Impact,sans-serif" fontSize="38" fontWeight="700" letterSpacing="18">AUTO CENTER</text>
-  </svg>
-);
 
 export default App;
